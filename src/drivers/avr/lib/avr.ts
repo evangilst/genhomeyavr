@@ -383,6 +383,8 @@ export class AVR {
       /* ============================================================== */
       .on( "uncaughtException", (err: Error ) : void => {
         this.comChannel.emit(`net_uncaught`, this.avr_avrnum, this.avr_name);
+        this.avrSocket.end();
+        this.eventch.emit("net_retry");
       });
   }
 

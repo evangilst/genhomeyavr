@@ -9,7 +9,7 @@ export interface HomeyAvrInfo {
   used:        boolean
 };
 
-export interface KnownAvr {
+export interface KnownAvrInfo {
   name:   string,
   avr:    string
 };
@@ -44,4 +44,12 @@ export interface HomeyDeviceData {
     avrtype:    string,
     avrindex:   number
   }
+};
+
+export interface ArgsData {
+  avrname: KnownAvrInfo
+};
+
+export interface TriggerData {
+  name:      string
 };
