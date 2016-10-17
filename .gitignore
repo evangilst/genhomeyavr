@@ -1,0 +1,11 @@
+# Git will ignore the foolowing files and directories
+
+node_modules
+typings
+bower_components
+jspm_packages
+
+dist
+
+**/.baseDir.ts
+**/.tscache
