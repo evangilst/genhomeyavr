@@ -21,8 +21,14 @@ export interface SelectionInfo {
 
 export interface PairData {
   avrip:      string,
-  avrport:    number,
+  avrport:    string,
   avrname:    string,
+  avrtype:    string
+};
+
+export interface SetttingsData {
+  avrip:      string,
+  avrport:    string,
   avrtype:    string
 };
 
@@ -35,7 +41,7 @@ export interface AvrDeviceData {
 };
 
 export interface HomeyDeviceData {
-  name:         string,
+  name:        string,
   data: {
     id:         string,
     avrip:      string,
@@ -52,4 +58,25 @@ export interface ArgsData {
 
 export interface TriggerData {
   name:      string
+};
+
+export interface ActionArgsInfo {
+  device:      AvrDeviceData,
+  volumeNum?:  number,
+  input?: {
+    command:   string,
+    name:      string
+  }
+};
+
+export interface ArgsComplete {
+  query:       string,
+  args: {
+    device: {
+      name:    string,
+      icon:    string,
+      id:      string,
+    }
+    input:     string
+  }
 };

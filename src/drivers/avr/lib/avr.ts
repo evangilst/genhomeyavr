@@ -1,11 +1,13 @@
 "use strict";
 
-/* ==================================================================== */
-/* = NOTE:                                                              */
-/* =   THIS IS A GENERATED JAVASCRIPT FILE                              */
-/* =   DONT EDIT THE JAVASCRIPT FILE (*.js)                             */
-/* =   but the typescipt file (*.ts) instead and re-generate the file   */
-/* ==================================================================== */
+/* ================================================================== */
+/* = Note:                                                          = */
+/* = This is a generated javascript file.                           = */
+/* = Don't edit the javascript file directly or change might be     = */
+/* = lost with the next build.                                      = */
+/* = Edit the typescipt file instead and re-generate the javascript = */
+/* = file.                                                          = */
+/* ================================================================== */
 
 import * as path      from "path";
 import * as fs        from "fs";
@@ -243,21 +245,25 @@ export class AVR {
    */
   private _fillEcoArray() : void {
 
-    for ( let I =0 ; I < this.conf.eco.length ; I++ ) {
+    if ( this.hasEco() === true ) {
+      for ( let I =0 ; I < this.conf.eco.length ; I++ ) {
 
-      if ( typeof( this.conf.eco[I] !== "undefined"   &&
-                  this.conf.eco[I]  !== null )) {
+        if ( typeof( this.conf.eco[I] !== "undefined"   &&
+                    this.conf.eco[I]  !== null )) {
 
-        if( this.conf.eco[I].valid   === true &&
-            this.conf.eco[I].prog_id !== "eco_request" ) {
+          if( this.conf.eco[I].valid   === true &&
+              this.conf.eco[I].prog_id !== "eco_request" ) {
 
-          let item: SelectionInfo = {
-            i18n: this.conf.eco[I].i18n,
-            command: this.conf.eco[I].command
-          };
-          this.ecoAr.push( item );
+            let item: SelectionInfo = {
+              i18n: this.conf.eco[I].i18n,
+              command: this.conf.eco[I].command
+            };
+            this.ecoAr.push( item );
+          }
         }
       }
+    } else {
+      this.ecoAr.push({ i18n: "error.econotsup", command: "eco_not_supported"});
     }
   }
 
@@ -344,11 +350,11 @@ export class AVR {
       /* ============================================================== */
       .on( "net_retry" , () : void => {
         this._d(`Network retry.`);
-        if( this.hasToStop === false ) {
-          setTimeout( () => {
+        setTimeout( () => {
+          if( this.hasToStop === false ) {
             this._openConnection();
-          }, TIME_TO_RETRY );
-        }
+          }
+        }, TIME_TO_RETRY );
       })
 
       /* ============================================================== */
@@ -358,7 +364,9 @@ export class AVR {
       .on( "req_disconnect" , () : void => {
         this._d("Request disconnect.");
         this.hasToStop  = true ;
-        this.avrSocket.end();
+        if ( this.avrSocket !== null ) {
+          this.avrSocket.end();
+        }
       })
 
       /* ============================================================== */
@@ -566,7 +574,8 @@ export class AVR {
 
         this.powerStatus = newStatus;
 
-        if ( this.hasNetworkConnection === true ) {
+        if ( this.hasNetworkConnection === true &&
+              newStatus !== oldStatus ) {
 
           for ( let I = 0 ; I < this.conf.power.length; I++ ) {
             if ( newStatus === this.conf.power[I].command ) {
@@ -588,26 +597,45 @@ export class AVR {
         /* ========================================================== */
         /* - Main Zone Power                                          */
         /* ========================================================== */
+        newStatus = xData;
+        oldStatus = this.mainZonePowerStatus;
+        newi18n   = "";
+        oldi18n   = "";
+
         this.mainZonePowerStatus = xData;
 
-        if ( this.hasNetworkConnection === true ) {
+        if ( this.hasNetworkConnection === true &&
+              newStatus !== oldStatus ) {
 
           for ( let I = 0 ; I < this.conf.main_zone_power.length; I++ ) {
-            if ( xData === this.conf.main_zone_power[I].command ) {
-
-              this.comChannel.emit( "mzpower_status_chg", this.avr_avrnum,
-                  this.avr_name, this.conf.main_zone_power[I].i18n );
+            if ( newStatus === this.conf.main_zone_power[I].command ) {
+              newi18n = this.conf.main_zone_power[I].i18n;
             }
           }
+
+          for ( let I = 0 ; I < this.conf.main_zone_power.length; I++ ) {
+            if ( oldStatus === this.conf.main_zone_power[I].command ) {
+              oldi18n = this.conf.main_zone_power[I].i18n;
+            }
+          }
+
+          this.comChannel.emit( "mzpower_status_chg", this.avr_avrnum,
+              this.avr_name, newi18n, oldi18n );
         }
         break;
       case "SI":
         /* ========================================================== */
         /* - Input Source selection                                   */
         /* ========================================================== */
+        newStatus = xData;
+        oldStatus = this.inputSourceSelection;
+        newi18n   = "";
+        oldi18n   = "";
+
         this.inputSourceSelection = xData;
 
-        if ( this.hasNetworkConnection === true ) {
+        if ( this.hasNetworkConnection === true  &&
+              newStatus !== oldStatus ) {
 
           for ( let I = 0 ; I < this.conf.inputsource.length; I++ ) {
             if ( xData === this.conf.inputsource[I].command ) {
@@ -622,26 +650,45 @@ export class AVR {
         /* ========================================================== */
         /* - mute                                                     */
         /* ========================================================== */
+        newStatus = xData;
+        oldStatus = this.muteStatus ;
+        newi18n   = "";
+        oldi18n   = "";
+
         this.muteStatus = xData;
 
-        if ( this.hasNetworkConnection === true ) {
+        if ( this.hasNetworkConnection === true &&
+              newStatus !== oldStatus  ) {
 
           for ( let I = 0 ; I < this.conf.mute.length; I++ ) {
-            if ( xData === this.conf.mute[I].command ) {
-
-              this.comChannel.emit( "mute_status_chg", this.avr_avrnum,
-                  this.avr_name, this.conf.mute[I].i18n );
+            if ( newStatus === this.conf.mute[I].command ) {
+              newi18n = this.conf.mute[I].i18n;
             }
           }
+
+          for ( let I = 0 ; I < this.conf.mute.length; I++ ) {
+            if ( oldStatus === this.conf.mute[I].command ) {
+              oldi18n = this.conf.mute[I].i18n;
+            }
+          }
+
+          this.comChannel.emit( "mute_status_chg", this.avr_avrnum,
+              this.avr_name, newi18n, oldi18n );
         }
         break;
       case "MS":
         /* ========================================================== */
         /* - Surround mode                                            */
         /* ========================================================== */
+        newStatus = xData;
+        oldStatus = this.surroundMode ;
+        newi18n   = "";
+        oldi18n   = "";
+
         this.surroundMode = xData;
 
-        if ( this.hasNetworkConnection === true ) {
+        if ( this.hasNetworkConnection === true  &&
+              newStatus !== oldStatus ) {
 
           for ( let I = 0 ; I < this.conf.surround.length; I++ ) {
             if ( xData === this.conf.surround[I].command ) {
@@ -662,17 +709,30 @@ export class AVR {
         /* ========================================================== */
         /* - Eco mode                                                 */
         /* ========================================================== */
+        newStatus = xData;
+        oldStatus = this.ecoStatus;
+        newi18n   = "";
+        oldi18n   = "";
+
         this.ecoStatus = xData;
 
-        if ( this.hasNetworkConnection === true ) {
+        if ( this.hasNetworkConnection === true  &&
+              newStatus !== oldStatus ) {
 
           for ( let I = 0 ; I < this.conf.eco.length; I++ ) {
-            if ( xData === this.conf.eco[I].command ) {
-
-              this.comChannel.emit( "eco_status_chg", this.avr_avrnum,
-                  this.avr_name, this.conf.eco[I].i18n );
+            if ( newStatus === this.conf.eco[I].command ) {
+              newi18n = this.conf.eco[I].i18n;
             }
           }
+
+          for ( let I = 0 ; I < this.conf.eco.length; I++ ) {
+            if ( oldStatus === this.conf.eco[I].command ) {
+              oldi18n = this.conf.eco[I].i18n;
+            }
+          }
+
+          this.comChannel.emit( "eco_status_chg", this.avr_avrnum,
+              this.avr_name, newi18n, oldi18n );
         }
         break;
     }
@@ -1115,8 +1175,8 @@ export class AVR {
    * Select given input Source.
    * @param {string} command_id The input source command.
    */
-  public selectInputSource( command_id: string ) : void {
-    this._inputSourceCommand( command_id );
+  public selectInputSource( command: string ) : void {
+    this._insertIntoSendBuffer( command );
   }
 
   /**
@@ -1467,7 +1527,7 @@ export class AVR {
    * @param {string} command The diesired surround mode.
    */
   public setSurrroundCommand( command: string ) : void {
-    this._surroundCommand( command );
+    this._insertIntoSendBuffer( command );
   }
 
   /**
@@ -1647,8 +1707,8 @@ export class AVR {
    * @param {string} command The eco command
    */
   public sendEcoCommand( command: string ) : void {
-    if ( command !== "ECO_NOT_SUPPORTED" ) {
-      this._ecoCommand( command );
+    if ( command !== "eco_not_supported" ) {
+      this._insertIntoSendBuffer( command );
     } else {
       this._d(`Eco is not supported for this type.`);
     }

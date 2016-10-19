@@ -1,576 +1,1442 @@
 {
-    "id": "nl.evgilst.homeyavr",
-    "name": {
-        "en": "homeyavr",
-        "nl": "homeyavr"
-    },
-    "version": "1.0.0",
-    "compatibility": "0.x || 1.x",
-    "author": {
-        "name": "Evert van Gilst",
-        "email": "apps@evgilst.nl"
-    },
-    "images": {
-        "large": "./assets/images/large.jpg",
-        "small": "./assets/images/small.jpg"
-    },
-    "category": "appliances",
-    "description": {
-        "en": "AVR controll appliance for Homey",
-        "nl": "Homeys AVR besturings applicatie."
-    },
-    "dependencies": {
-        "net": "*"
-    },
-    "drivers": [
+  "id": "nl.evgilst.homeyavr",
+  "name": {
+    "en": "homeyavr",
+    "nl": "homeyavr"
+  },
+  "version": "1.0.0",
+  "compatibility": "0.x || 1.x",
+  "author": {
+    "name": "Evert van Gilst",
+    "email": "apps@evgilst.nl"
+  },
+  "images": {
+    "large": "./assets/images/large.jpg",
+    "small": "./assets/images/small.jpg"
+  },
+  "category": "appliances",
+  "description": {
+    "en": "AVR controll appliance for Homey",
+    "nl": "Homeys AVR besturings applicatie."
+  },
+  "dependencies": {
+    "net": "*"
+  },
+  "drivers": [
+    {
+      "id": "avr",
+      "name": {
+        "en": "AVR amplifier.",
+        "nl": "Avr versterker"
+      },
+      "images": {
+        "large": "./drivers/avr/assets/images/large.jpg",
+        "small": "./drivers/avr/assets/images/small.jpg"
+      },
+      "class": "other",
+      "capabilities": ["onoff"],
+      "pair": [
         {
-            "id": "avr",
-            "name": {
-                "en": "AVR amplifier.",
-                "nl": "Avr versterker"
-            },
-            "images": {
-                "large": "drivers/avr/assets/images/large.jpg",
-                "small": "drivers/avr/assets/images/small.jpg"
-            },
-            "class": "other",
-            "capabilities": ["onoff"],
-            "pair": [
-                {
-                    "id": "configure_avr"
-                },
-                {
-                    "id": "list_devices",
-                    "template": "list_devices",
-                    "navigation": {
-                        "next": "add_avr"
-                    }
-                },
-                {
-                    "id": "add_avr",
-                    "template": "add_devices"
-                }
-            ],
-            "settings": [
-                {
-                    "type": "group",
-                    "label": {
-                        "en": "General settings.",
-                        "nl": "Algemene waarden"
-                    },
-                    "children": [
-                        {
-                            "id":   "avrip",
-                            "type": "text",
-                            "label": {
-                                "en": "IP address",
-                                "nl": "IP adres"
-                            },
-                            "value": ""
-                        },
-                        {
-                            "id":   "avrport",
-                            "type": "text",
-                            "label": {
-                                "en": "Port",
-                                "nl": "Poort"
-                            },
-                            "value": "23"
-                        },
-                        {
-                            "id":   "avrtype",
-                            "type": "dropdown",
-                            "label": {
-                                "en": "Type",
-                                "nl": "Type"
-                            },
-                            "value": "",
-                            "values": [
-                                {
-                                    "id": "selnul",
-                                    "label": ""
-                                },
-                                {
-                                    "id": "AV8802",
-                                    "label": "AV8802"
-                                },
-                                {
-                                    "id": "AV8801",
-                                    "label": "AV8801"
-                                },
-                                {
-                                    "id": "AV7702",
-                                    "label": "AV7702"
-                                },
-                                {
-                                    "id": "AV7701",
-                                    "label": "AV7701"
-                                },
-                                {
-                                    "id": "AV7005",
-                                    "label": "AV7005"
-                                },
-                                {
-                                    "id": "SR7010",
-                                    "label": "SR7010"
-                                },
-                                {
-                                    "id": "SR7009",
-                                    "label": "SR7009"
-                                },
-                                {
-                                    "id": "SR7008",
-                                    "label": "SR7008"
-                                },
-                                {
-                                    "id": "SR7007",
-                                    "label": "SR7007"
-                                },
-                                {
-                                    "id": "SR7005",
-                                    "label": "SR7005"
-                                },
-                                {
-                                    "id": "SR6010",
-                                    "label": "SR6010"
-                                },
-                                {
-                                    "id": "SR6009",
-                                    "label": "SR6009"
-                                },
-                                {
-                                    "id": "SR6008",
-                                    "label": "SR6008"
-                                },
-                                {
-                                    "id": "SR6007",
-                                    "label": "SR6007"
-                                },
-                                {
-                                    "id": "SR6006",
-                                    "label": "SR6006"
-                                },
-                                {
-                                    "id": "SR6005",
-                                    "label": "SR6005"
-                                },
-                                {
-                                    "id": "SR5010",
-                                    "label": "SR5010"
-                                },
-                                {
-                                    "id": "SR5009",
-                                    "label": "SR5009"
-                                },
-                                {
-                                    "id": "SR5008",
-                                    "label": "SR5008"
-                                },
-                                {
-                                    "id": "SR5007",
-                                    "label": "SR5007"
-                                },
-                                {
-                                    "id": "SR5006",
-                                    "label": "SR5006"
-                                },
-                                {
-                                    "id": "NR1606",
-                                    "label": "NR1606"
-                                },
-                                {
-                                    "id": "NR1605",
-                                    "label": "NR1605"
-                                },
-                                {
-                                    "id": "NR1604",
-                                    "label": "NR1604"
-                                },
-                                {
-                                    "id": "NR1603",
-                                    "label": "NR1603"
-                                },
-                                {
-                                    "id": "NR1602",
-                                    "label": "NR1602"
-                                },
-                                {
-                                    "id": "NR1506",
-                                    "label": "NR1506"
-                                },
-                                {
-                                    "id": "NR1504",
-                                    "label": "NR1504"
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ]
+          "id": "configure_avr"
+        },
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_avr"
+          }
+        },
+        {
+          "id": "add_avr",
+          "template": "add_devices"
         }
-    ],
-    "flow": {
-        "actions": [
+      ],
+      "settings": [
+        {
+          "type": "group",
+          "label": {
+            "en": "General settings.",
+            "nl": "Algemene waarden"
+          },
+          "children": [
             {
-                "id": "poweron",
-                "title": {
-                    "en": "Power up.",
-                    "nl": "Zet aan"
-                },
-                "args": [
-                    {
-                        "name": "device",
-                        "type": "device",
-                        "placeholder": {
-                            "en": "Select avr",
-                            "nl": "Selecteer avr"
-                        }
-                    }
-                ]
+              "id": "avrip",
+              "type": "text",
+              "label": {
+                "en": "IP address",
+                "nl": "IP adres"
+              },
+              "value": ""
             },
             {
-                "id": "poweroff",
-                "title": {
-                    "en": "Power off.",
-                    "nl": "Zet uit"
-                },
-                "args": [
-                    {
-                        "name": "device",
-                        "type": "device",
-                        "placeholder": {
-                            "en": "Select avr",
-                            "nl": "Selecteer avr"
-                        }
-                    }
-                ]
+              "id": "avrport",
+              "type": "text",
+              "label": {
+                "en": "Port",
+                "nl": "Poort"
+              },
+              "value": "23"
             },
             {
-                "id": "mute",
-                "title": {
-                    "en": "Turn mute on",
-                    "nl": "Zet mute aan"
+              "id": "avrtype",
+              "type": "dropdown",
+              "label": {
+                "en": "Type",
+                "nl": "Type"
+              },
+              "value": "",
+              "values": [
+                {
+                  "id": "selnul",
+                  "label": ""
                 },
-                "args": [
-                    {
-                        "name": "device",
-                        "type": "device",
-                        "placeholder": {
-                            "en": "Select amplifier",
-                            "nl": "Selecteer versterker"
-                        }
-                    }
-                ]
-            },
-            {
-                "id": "unmute",
-                "title": {
-                    "en": "Turn mute off",
-                    "nl": "Zet mute uit"
+                {
+                  "id": "AV8802",
+                  "label": "AV8802"
                 },
-                "args": [
-                    {
-                        "name": "device",
-                        "type": "device",
-                        "placeholder": {
-                            "en": "Select amplifier",
-                            "nl": "Selecteer versterker"
-                        }
-                    }
-                ]
-            },
-            {
-                "id": "selectinput",
-                "title": {
-                    "en": "Select input source",
-                    "nl": "Selecteer ingaansbron."
+                {
+                  "id": "AV8801",
+                  "label": "AV8801"
                 },
-                "args": [
-                    {
-                        "name": "device",
-                        "type": "device",
-                        "placeholder": {
-                            "en": "Select amplifier",
-                            "nl": "Selecteer versterker"
-                        }
-                    },
-                    {
-                        "name": "input",
-                        "type": "autocomplete",
-                        "placeholder": {
-                            "en": "Target Selection",
-                            "nl": "Gewenste bron"
-                        }
-                    }
-                ]
-            },
-            {
-                "id": "volumeup",
-                "title": {
-                    "en": "Turn volume up",
-                    "nl": "Zet volume harder"
+                {
+                  "id": "AV7702",
+                  "label": "AV7702"
                 },
-                "args": [
-                    {
-                        "name": "device",
-                        "type": "device",
-                        "placeholder": {
-                            "en": "Select amplifier",
-                            "nl": "Selecteer versterker"
-                        }
-                    }
-                ]
-            },
-            {
-                "id": "volumedown",
-                "title": {
-                    "en": "Turn volume down",
-                    "nl": "Zet volume zachter"
+                {
+                  "id": "AV7701",
+                  "label": "AV7701"
                 },
-                "args": [
-                    {
-                        "name": "device",
-                        "type": "device",
-                        "placeholder": {
-                            "en": "Select amplifier",
-                            "nl": "Selecteer versterker"
-                        }
-                    }
-                ]
-            },
-            {
-                "id": "setvolume",
-                "title": {
-                    "en": "set volume",
-                    "nl": "Zet volume"
+                {
+                  "id": "AV7005",
+                  "label": "AV7005"
                 },
-                "args": [
-                    {
-                        "name": "device",
-                        "type": "device",
-                        "placeholder": {
-                            "en": "Select amplifier",
-                            "nl": "Selecteer versterker"
-                        }
-                    },
-                    {
-                        "name": "volumeNum",
-                        "type": "number" ,
-                        "min":  0,
-                        "max": 80,
-                        "placeholder": {
-                            "en": "new volume",
-                            "nl": "nieuw volume"
-                        }
-
-                    }
-                ]
-            },
-            {
-                "id": "main_zone_poweron",
-                "title": {
-                    "en": "Main zone power up.",
-                    "nl": "Zet main zone aan"
+                {
+                  "id": "SR7010",
+                  "label": "SR7010"
                 },
-                "args": [
-                    {
-                        "name": "device",
-                        "type": "device",
-                        "placeholder": {
-                            "en": "Select avr",
-                            "nl": "Selecteer avr"
-                        }
-                    }
-                ]
-            },
-            {
-                "id": "main_zone_poweroff",
-                "title": {
-                    "en": "Main zone power off.",
-                    "nl": "Zet main zone uit"
+                {
+                  "id": "SR7009",
+                  "label": "SR7009"
                 },
-                "args": [
-                    {
-                        "name": "device",
-                        "type": "device",
-                        "placeholder": {
-                            "en": "Select avr",
-                            "nl": "Selecteer avr"
-                        }
-                    }
-                ]
-            },
-            {
-                "id": "surround",
-                "title": {
-                    "en": "Select surround mode",
-                    "nl": "Selecteer surround mode."
+                {
+                  "id": "SR7008",
+                  "label": "SR7008"
                 },
-                "args": [
-                    {
-                        "name": "device",
-                        "type": "device",
-                        "placeholder": {
-                            "en": "Select amplifier",
-                            "nl": "Selecteer versterker"
-                        }
-                    },
-                    {
-                        "name": "input",
-                        "type": "autocomplete",
-                        "placeholder": {
-                            "en": "Target Selection",
-                            "nl": "Gewenste bron"
-                        }
-                    }
-                ]
-            },
-            {
-                "id": "eco",
-                "title": {
-                    "en": "Select eco mode",
-                    "nl": "Selecteer eco mode."
+                {
+                  "id": "SR7007",
+                  "label": "SR7007"
                 },
-                "args": [
-                    {
-                        "name": "device",
-                        "type": "device",
-                        "placeholder": {
-                            "en": "Select amplifier",
-                            "nl": "Selecteer versterker"
-                        }
-                    },
-                    {
-                        "name": "input",
-                        "type": "autocomplete",
-                        "placeholder": {
-                            "en": "Target mode",
-                            "nl": "Gewenste mode"
-                        }
-                    }
-                ]
+                {
+                  "id": "SR7005",
+                  "label": "SR7005"
+                },
+                {
+                  "id": "SR6010",
+                  "label": "SR6010"
+                },
+                {
+                  "id": "SR6009",
+                  "label": "SR6009"
+                },
+                {
+                  "id": "SR6008",
+                  "label": "SR6008"
+                },
+                {
+                  "id": "SR6007",
+                  "label": "SR6007"
+                },
+                {
+                  "id": "SR6006",
+                  "label": "SR6006"
+                },
+                {
+                  "id": "SR6005",
+                  "label": "SR6005"
+                },
+                {
+                  "id": "SR5010",
+                  "label": "SR5010"
+                },
+                {
+                  "id": "SR5009",
+                  "label": "SR5009"
+                },
+                {
+                  "id": "SR5008",
+                  "label": "SR5008"
+                },
+                {
+                  "id": "SR5007",
+                  "label": "SR5007"
+                },
+                {
+                  "id": "SR5006",
+                  "label": "SR5006"
+                },
+                {
+                  "id": "NR1606",
+                  "label": "NR1606"
+                },
+                {
+                  "id": "NR1605",
+                  "label": "NR1605"
+                },
+                {
+                  "id": "NR1604",
+                  "label": "NR1604"
+                },
+                {
+                  "id": "NR1603",
+                  "label": "NR1603"
+                },
+                {
+                  "id": "NR1602",
+                  "label": "NR1602"
+                },
+                {
+                  "id": "NR1506",
+                  "label": "NR1506"
+                },
+                {
+                  "id": "NR1504",
+                  "label": "NR1504"
+                }
+              ]
             }
-        ],
-        "triggers": [
-            {
-                "id": "t_power_on",
-                "title": {
-                    "en": "Main power switched on.",
-                    "nl": "AVR aangezet."
-                },
-                "args": [
-                    {
-                        "name": "avrname",
-                        "type": "autocomplete",
-                        "placeholder": {
-                            "en": "which avr",
-                            "nl": "welk avr"
-                        }
-                    }
-                ]
-            },
-            {
-                "id": "t_power_off",
-                "title": {
-                    "en": "Main power switched off.",
-                    "nl": "AVR uitgezet."
-                },
-                "args": [
-                    {
-                        "name": "avrname",
-                        "type": "autocomplete",
-                        "placeholder": {
-                            "en": "which avr",
-                            "nl": "welk avr"
-                        }
-                    }
-                ]
-            },
-            {
-                "id": "t_mute_on",
-                "title": {
-                    "en": "Mute switched on.",
-                    "nl": "Mute aangezet."
-                },
-                "args": [
-                    {
-                        "name": "avrname",
-                        "type": "autocomplete",
-                        "placeholder": {
-                            "en": "which avr",
-                            "nl": "welk avr"
-                        }
-                    }
-                ]
-            },
-            {
-                "id": "t_mute_off",
-                "title": {
-                    "en": "Mute switched off.",
-                    "nl": "Mute uitgezet."
-                },
-                "args": [
-                    {
-                        "name": "avrname",
-                        "type": "autocomplete",
-                        "placeholder": {
-                            "en": "which avr",
-                            "nl": "welk avr"
-                        }
-                    }
-                ]
-            },
-            {
-                "id": "t_eco_on",
-                "title": {
-                    "en": "Eco switched on.",
-                    "nl": "Eco aangezet."
-                },
-                "args": [
-                    {
-                        "name": "avrname",
-                        "type": "autocomplete",
-                        "placeholder": {
-                            "en": "which avr",
-                            "nl": "welk avr"
-                        }
-                    }
-                ]
-            },
-            {
-                "id": "t_eco_off",
-                "title": {
-                    "en": "Eco switched off.",
-                    "nl": "Eco uitgezet."
-                },
-                "args": [
-                    {
-                        "name": "avrname",
-                        "type": "autocomplete",
-                        "placeholder": {
-                            "en": "which avr",
-                            "nl": "welk avr"
-                        }
-                    }
-                ]
-            },
-            {
-                "id": "t_eco_auto",
-                "title": {
-                    "en": "Eco switched to auto.",
-                    "nl": "Eco mode naar auto."
-                },
-                "args": [
-                    {
-                        "name": "avrname",
-                        "type": "autocomplete",
-                        "placeholder": {
-                            "en": "which avr",
-                            "nl": "welk avr"
-                        }
-                    }
-                ]
-            }
-        ]
+          ]
+        }
+      ]
     }
+  ],
+  "flow": {
+    "actions": [
+      {
+        "id": "poweron",
+        "title": {
+          "en": "Power up.",
+          "nl": "Zet aan"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "placeholder": {
+              "en": "Select avr",
+              "nl": "Selecteer avr"
+            }
+          }
+        ]
+      },
+      {
+        "id": "poweroff",
+        "title": {
+          "en": "Power off.",
+          "nl": "Zet uit"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "placeholder": {
+              "en": "Select avr",
+              "nl": "Selecteer avr"
+            }
+          }
+        ]
+      },
+      {
+        "id": "mute",
+        "title": {
+          "en": "Turn mute on",
+          "nl": "Zet mute aan"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "placeholder": {
+              "en": "Select amplifier",
+              "nl": "Selecteer versterker"
+            }
+          }
+        ]
+      },
+      {
+        "id": "unmute",
+        "title": {
+          "en": "Turn mute off",
+          "nl": "Zet mute uit"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "placeholder": {
+              "en": "Select amplifier",
+              "nl": "Selecteer versterker"
+            }
+          }
+        ]
+      },
+      {
+        "id": "selectinput",
+        "title": {
+          "en": "Select input source",
+          "nl": "Selecteer ingaansbron."
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "placeholder": {
+              "en": "Select amplifier",
+              "nl": "Selecteer versterker"
+            }
+          },
+          {
+            "name": "input",
+            "type": "autocomplete",
+            "placeholder": {
+              "en": "Target Selection",
+              "nl": "Gewenste bron"
+            }
+          }
+        ]
+      },
+      {
+        "id": "volumeup",
+        "title": {
+          "en": "Turn volume up",
+          "nl": "Zet volume harder"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "placeholder": {
+              "en": "Select amplifier",
+              "nl": "Selecteer versterker"
+            }
+          }
+        ]
+      },
+      {
+        "id": "volumedown",
+        "title": {
+          "en": "Turn volume down",
+          "nl": "Zet volume zachter"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "placeholder": {
+              "en": "Select amplifier",
+              "nl": "Selecteer versterker"
+            }
+          }
+        ]
+      },
+      {
+        "id": "setvolume",
+        "title": {
+          "en": "set volume",
+          "nl": "Zet volume"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "placeholder": {
+              "en": "Select amplifier",
+              "nl": "Selecteer versterker"
+            }
+          },
+          {
+            "name": "volumeNum",
+            "type": "number",
+            "min": 0,
+            "max": 80,
+            "placeholder": {
+              "en": "new volume",
+              "nl": "nieuw volume"
+            }
+          }
+        ]
+      },
+      {
+        "id": "main_zone_poweron",
+        "title": {
+          "en": "Main zone power up.",
+          "nl": "Zet main zone aan"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "placeholder": {
+              "en": "Select avr",
+              "nl": "Selecteer avr"
+            }
+          }
+        ]
+      },
+      {
+        "id": "main_zone_poweroff",
+        "title": {
+          "en": "Main zone power off.",
+          "nl": "Zet main zone uit"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "placeholder": {
+              "en": "Select avr",
+              "nl": "Selecteer avr"
+            }
+          }
+        ]
+      },
+      {
+        "id": "surround",
+        "title": {
+          "en": "Select surround mode",
+          "nl": "Selecteer surround mode."
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "placeholder": {
+              "en": "Select amplifier",
+              "nl": "Selecteer versterker"
+            }
+          },
+          {
+            "name": "input",
+            "type": "autocomplete",
+            "placeholder": {
+              "en": "Target Selection",
+              "nl": "Gewenste bron"
+            }
+          }
+        ]
+      },
+      {
+        "id": "eco",
+        "title": {
+          "en": "Select eco mode",
+          "nl": "Selecteer eco mode."
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "placeholder": {
+              "en": "Select amplifier",
+              "nl": "Selecteer versterker"
+            }
+          },
+          {
+            "name": "input",
+            "type": "autocomplete",
+            "placeholder": {
+              "en": "Target mode",
+              "nl": "Gewenste mode"
+            }
+          }
+        ]
+      }
+    ],
+    "triggers": [
+      {
+        "id": "t_power_on",
+        "title": {
+          "en": "Main power switched on.",
+          "nl": "AVR aangezet."
+        },
+        "args": [
+          {
+            "name": "avrname",
+            "type": "autocomplete",
+            "placeholder": {
+              "en": "which avr",
+              "nl": "welk avr"
+            }
+          }
+        ]
+      },
+      {
+        "id": "t_power_off",
+        "title": {
+          "en": "Main power switched off.",
+          "nl": "AVR uitgezet."
+        },
+        "args": [
+          {
+            "name": "avrname",
+            "type": "autocomplete",
+            "placeholder": {
+              "en": "which avr",
+              "nl": "welk avr"
+            }
+          }
+        ]
+      },
+      {
+        "id": "t_mute_on",
+        "title": {
+          "en": "Mute switched on.",
+          "nl": "Mute aangezet."
+        },
+        "args": [
+          {
+            "name": "avrname",
+            "type": "autocomplete",
+            "placeholder": {
+              "en": "which avr",
+              "nl": "welk avr"
+            }
+          }
+        ]
+      },
+      {
+        "id": "t_mute_off",
+        "title": {
+          "en": "Mute switched off.",
+          "nl": "Mute uitgezet."
+        },
+        "args": [
+          {
+            "name": "avrname",
+            "type": "autocomplete",
+            "placeholder": {
+              "en": "which avr",
+              "nl": "welk avr"
+            }
+          }
+        ]
+      },
+      {
+        "id": "t_eco_on",
+        "title": {
+          "en": "Eco switched on.",
+          "nl": "Eco aangezet."
+        },
+        "args": [
+          {
+            "name": "avrname",
+            "type": "autocomplete",
+            "placeholder": {
+              "en": "which avr",
+              "nl": "welk avr"
+            }
+          }
+        ]
+      },
+      {
+        "id": "t_eco_off",
+        "title": {
+          "en": "Eco switched off.",
+          "nl": "Eco uitgezet."
+        },
+        "args": [
+          {
+            "name": "avrname",
+            "type": "autocomplete",
+            "placeholder": {
+              "en": "which avr",
+              "nl": "welk avr"
+            }
+          }
+        ]
+      },
+      {
+        "id": "t_eco_auto",
+        "title": {
+          "en": "Eco switched to auto.",
+          "nl": "Eco mode naar auto."
+        },
+        "args": [
+          {
+            "name": "avrname",
+            "type": "autocomplete",
+            "placeholder": {
+              "en": "which avr",
+              "nl": "welk avr"
+            }
+          }
+        ]
+      },
+      {
+        "id": "t_in_aux1",
+        "title": {
+          "en": "Source aux1 selected.",
+          "nl": "Ingang aux1 geselecteerd."
+        },
+        "args": [
+          {
+            "name": "avrname",
+            "type": "autocomplete",
+            "placeholder": {
+              "en": "which avr",
+              "nl": "welk avr"
+            }
+          }
+        ]
+      },
+      {
+        "id": "t_in_aux2",
+        "title": {
+          "en": "Source aux2 selected.",
+          "nl": "Ingang aux2 geselecteerd."
+        },
+        "args": [
+          {
+            "name": "avrname",
+            "type": "autocomplete",
+            "placeholder": {
+              "en": "which avr",
+              "nl": "welk avr"
+            }
+          }
+        ]
+      },
+      {
+        "id": "t_in_aux3",
+        "title": {
+          "en": "Source aux3 selected.",
+          "nl": "Ingang aux3 geselecteerd."
+        },
+        "args": [
+          {
+            "name": "avrname",
+            "type": "autocomplete",
+            "placeholder": {
+              "en": "which avr",
+              "nl": "welk avr"
+            }
+          }
+        ]
+      },
+      {
+        "id": "t_in_aux4",
+        "title": {
+          "en": "Source aux4 selected.",
+          "nl": "Ingang aux4 geselecteerd."
+        },
+        "args": [
+          {
+            "name": "avrname",
+            "type": "autocomplete",
+            "placeholder": {
+              "en": "which avr",
+              "nl": "welk avr"
+            }
+          }
+        ]
+      },
+      {
+        "id": "t_in_aux5",
+        "title": {
+          "en": "Source aux5 selected.",
+          "nl": "Ingang aux5 geselecteerd."
+        },
+        "args": [
+          {
+            "name": "avrname",
+            "type": "autocomplete",
+            "placeholder": {
+              "en": "which avr",
+              "nl": "welk avr"
+            }
+          }
+        ]
+      },
+      {
+        "id": "t_in_aux6",
+        "title": {
+          "en": "Source aux6 selected.",
+          "nl": "Ingang aux6 geselecteerd."
+        },
+        "args": [
+          {
+            "name": "avrname",
+            "type": "autocomplete",
+            "placeholder": {
+              "en": "which avr",
+              "nl": "welk avr"
+            }
+          }
+        ]
+      },
+      {
+        "id": "t_in_aux7",
+        "title": {
+          "en": "Source aux7 selected.",
+          "nl": "Ingang aux7 geselecteerd."
+        },
+        "args": [
+          {
+            "name": "avrname",
+            "type": "autocomplete",
+            "placeholder": {
+              "en": "which avr",
+              "nl": "welk avr"
+            }
+          }
+        ]
+      },
+      {
+        "id": "t_in_bd",
+        "title": {
+          "en": "Source Bluray selected.",
+          "nl": "Ingang Bluray geselecteerd."
+        },
+        "args": [
+          {
+            "name": "avrname",
+            "type": "autocomplete",
+            "placeholder": {
+              "en": "which avr",
+              "nl": "welk avr"
+            }
+          }
+        ]
+      },
+      {
+        "id": "t_in_bt",
+        "title": {
+          "en": "Source bluetooth selected.",
+          "nl": "Ingang bluetooth geselecteerd."
+        },
+        "args": [
+          {
+            "name": "avrname",
+            "type": "autocomplete",
+            "placeholder": {
+              "en": "which avr",
+              "nl": "welk avr"
+            }
+          }
+        ]
+      },
+      {
+        "id": "t_in_cd",
+        "title": {
+          "en": "Source CD selected.",
+          "nl": "Ingang CD geselecteerd."
+        },
+        "args": [
+          {
+            "name": "avrname",
+            "type": "autocomplete",
+            "placeholder": {
+              "en": "which avr",
+              "nl": "welk avr"
+            }
+          }
+        ]
+      },
+      {
+        "id": "t_in_cdr",
+        "title": {
+          "en": "Source CDR selected.",
+          "nl": "Ingang CDR geselecteerd."
+        },
+        "args": [
+          {
+            "name": "avrname",
+            "type": "autocomplete",
+            "placeholder": {
+              "en": "which avr",
+              "nl": "welk avr"
+            }
+          }
+        ]
+      },
+      {
+        "id": "t_in_dvd",
+        "title": {
+          "en": "Source DVD selected.",
+          "nl": "Ingang DVD geselecteerd."
+        },
+        "args": [
+          {
+            "name": "avrname",
+            "type": "autocomplete",
+            "placeholder": {
+              "en": "which avr",
+              "nl": "welk avr"
+            }
+          }
+        ]
+      },
+      {
+        "id": "t_in_favorites",
+        "title": {
+          "en": "Source favorites selected.",
+          "nl": "Ingang favorites geselecteerd."
+        },
+        "args": [
+          {
+            "name": "avrname",
+            "type": "autocomplete",
+            "placeholder": {
+              "en": "which avr",
+              "nl": "welk avr"
+            }
+          }
+        ]
+      },
+      {
+        "id": "t_in_flickr",
+        "title": {
+          "en": "Source flickr selected.",
+          "nl": "Ingang flickr geselecteerd."
+        },
+        "args": [
+          {
+            "name": "avrname",
+            "type": "autocomplete",
+            "placeholder": {
+              "en": "which avr",
+              "nl": "welk avr"
+            }
+          }
+        ]
+      },
+      {
+        "id": "t_in_game",
+        "title": {
+          "en": "Source game selected.",
+          "nl": "Ingang game geselecteerd."
+        },
+        "args": [
+          {
+            "name": "avrname",
+            "type": "autocomplete",
+            "placeholder": {
+              "en": "which avr",
+              "nl": "welk avr"
+            }
+          }
+        ]
+      },
+      {
+        "id": "t_in_iradio",
+        "title": {
+          "en": "Source internet radio selected.",
+          "nl": "Ingang internet radio geselecteerd."
+        },
+        "args": [
+          {
+            "name": "avrname",
+            "type": "autocomplete",
+            "placeholder": {
+              "en": "which avr",
+              "nl": "welk avr"
+            }
+          }
+        ]
+      },
+      {
+        "id": "t_in_mplay",
+        "title": {
+          "en": "Source mplay selected.",
+          "nl": "Ingang mplay geselecteerd."
+        },
+        "args": [
+          {
+            "name": "avrname",
+            "type": "autocomplete",
+            "placeholder": {
+              "en": "which avr",
+              "nl": "welk avr"
+            }
+          }
+        ]
+      },
+      {
+        "id": "t_in_mxport",
+        "title": {
+          "en": "Source mxport selected.",
+          "nl": "Ingang mxport geselecteerd."
+        },
+        "args": [
+          {
+            "name": "avrname",
+            "type": "autocomplete",
+            "placeholder": {
+              "en": "which avr",
+              "nl": "welk avr"
+            }
+          }
+        ]
+      },
+      {
+        "id": "t_in_napster",
+        "title": {
+          "en": "Source napster selected.",
+          "nl": "Ingang mapster geselecteerd."
+        },
+        "args": [
+          {
+            "name": "avrname",
+            "type": "autocomplete",
+            "placeholder": {
+              "en": "which avr",
+              "nl": "welk avr"
+            }
+          }
+        ]
+      },
+      {
+        "id": "t_in_net",
+        "title": {
+          "en": "Source NET selected.",
+          "nl": "Ingang NET geselecteerd."
+        },
+        "args": [
+          {
+            "name": "avrname",
+            "type": "autocomplete",
+            "placeholder": {
+              "en": "which avr",
+              "nl": "welk avr"
+            }
+          }
+        ]
+      },
+      {
+        "id": "t_in_net_usb",
+        "title": {
+          "en": "Source NET/USB selected.",
+          "nl": "Ingang NET/USB geselecteerd."
+        },
+        "args": [
+          {
+            "name": "avrname",
+            "type": "autocomplete",
+            "placeholder": {
+              "en": "which avr",
+              "nl": "welk avr"
+            }
+          }
+        ]
+      },
+      {
+        "id": "t_in_phono",
+        "title": {
+          "en": "Source Phono selected.",
+          "nl": "Ingang Phone geselecteerd."
+        },
+        "args": [
+          {
+            "name": "avrname",
+            "type": "autocomplete",
+            "placeholder": {
+              "en": "which avr",
+              "nl": "welk avr"
+            }
+          }
+        ]
+      },
+      {
+        "id": "t_in_sat",
+        "title": {
+          "en": "Source SAT selected.",
+          "nl": "Ingang SAt geselecteerd."
+        },
+        "args": [
+          {
+            "name": "avrname",
+            "type": "autocomplete",
+            "placeholder": {
+              "en": "which avr",
+              "nl": "welk avr"
+            }
+          }
+        ]
+      },
+      {
+        "id": "t_in_sat_cbl",
+        "title": {
+          "en": "Source SAT/CBL selected.",
+          "nl": "Ingang SAT/CBL geselecteerd."
+        },
+        "args": [
+          {
+            "name": "avrname",
+            "type": "autocomplete",
+            "placeholder": {
+              "en": "which avr",
+              "nl": "welk avr"
+            }
+          }
+        ]
+      },
+      {
+        "id": "t_in_server",
+        "title": {
+          "en": "Source SERVER selected.",
+          "nl": "Ingang SERVER geselecteerd."
+        },
+        "args": [
+          {
+            "name": "avrname",
+            "type": "autocomplete",
+            "placeholder": {
+              "en": "which avr",
+              "nl": "welk avr"
+            }
+          }
+        ]
+      },
+      {
+        "id": "t_in_spotify",
+        "title": {
+          "en": "Source spotify selected.",
+          "nl": "Ingang spotify geselecteerd."
+        },
+        "args": [
+          {
+            "name": "avrname",
+            "type": "autocomplete",
+            "placeholder": {
+              "en": "which avr",
+              "nl": "welk avr"
+            }
+          }
+        ]
+      },
+      {
+        "id": "t_in_tuner",
+        "title": {
+          "en": "Source tuner selected.",
+          "nl": "Ingang tuner geselecteerd."
+        },
+        "args": [
+          {
+            "name": "avrname",
+            "type": "autocomplete",
+            "placeholder": {
+              "en": "which avr",
+              "nl": "welk avr"
+            }
+          }
+        ]
+      },
+      {
+        "id": "t_in_tv",
+        "title": {
+          "en": "Source tv selected.",
+          "nl": "Ingang tv geselecteerd."
+        },
+        "args": [
+          {
+            "name": "avrname",
+            "type": "autocomplete",
+            "placeholder": {
+              "en": "which avr",
+              "nl": "welk avr"
+            }
+          }
+        ]
+      },
+      {
+        "id": "t_in_usb_ipod",
+        "title": {
+          "en": "Source USB/IPOD selected.",
+          "nl": "Ingang USB/IPOD geselecteerd."
+        },
+        "args": [
+          {
+            "name": "avrname",
+            "type": "autocomplete",
+            "placeholder": {
+              "en": "which avr",
+              "nl": "welk avr"
+            }
+          }
+        ]
+      },
+      {
+        "id": "t_in_v_aux",
+        "title": {
+          "en": "Source v_aux selected.",
+          "nl": "Ingang v_aux geselecteerd."
+        },
+        "args": [
+          {
+            "name": "avrname",
+            "type": "autocomplete",
+            "placeholder": {
+              "en": "which avr",
+              "nl": "welk avr"
+            }
+          }
+        ]
+      },
+      {
+        "id": "t_in_usb",
+        "title": {
+          "en": "Source USB selected.",
+          "nl": "Ingang USB geselecteerd."
+        },
+        "args": [
+          {
+            "name": "avrname",
+            "type": "autocomplete",
+            "placeholder": {
+              "en": "which avr",
+              "nl": "welk avr"
+            }
+          }
+        ]
+      },
+      {
+        "id": "t_in_ipd",
+        "title": {
+          "en": "Source IPD selected.",
+          "nl": "Ingang IPD geselecteerd."
+        },
+        "args": [
+          {
+            "name": "avrname",
+            "type": "autocomplete",
+            "placeholder": {
+              "en": "which avr",
+              "nl": "welk avr"
+            }
+          }
+        ]
+      },
+      {
+        "id": "t_in_irp",
+        "title": {
+          "en": "Source IRP selected.",
+          "nl": "Ingang IRP geselecteerd."
+        },
+        "args": [
+          {
+            "name": "avrname",
+            "type": "autocomplete",
+            "placeholder": {
+              "en": "which avr",
+              "nl": "welk avr"
+            }
+          }
+        ]
+      },
+      {
+        "id": "t_in_fvp",
+        "title": {
+          "en": "Source FVP selected.",
+          "nl": "Ingang FVP geselecteerd."
+        },
+        "args": [
+          {
+            "name": "avrname",
+            "type": "autocomplete",
+            "placeholder": {
+              "en": "which avr",
+              "nl": "welk avr"
+            }
+          }
+        ]
+      },
+      {
+        "id": "t_in_otp",
+        "title": {
+          "en": "Source OTP selected.",
+          "nl": "Ingang OTP geselecteerd."
+        },
+        "args": [
+          {
+            "name": "avrname",
+            "type": "autocomplete",
+            "placeholder": {
+              "en": "which avr",
+              "nl": "welk avr"
+            }
+          }
+        ]
+      },
+      {
+        "id": "t_sur_auto",
+        "title": {
+          "en": "Surround mode auto selected.",
+          "nl": "Surround mode auto geselecteerd."
+        },
+        "args": [
+          {
+            "name": "avrname",
+            "type": "autocomplete",
+            "placeholder": {
+              "en": "which avr",
+              "nl": "welk avr"
+            }
+          }
+        ]
+      },
+      {
+        "id": "t_sur_direct",
+        "title": {
+          "en": "Surround mode direct selected.",
+          "nl": "Surround mode direct geselecteerd."
+        },
+        "args": [
+          {
+            "name": "avrname",
+            "type": "autocomplete",
+            "placeholder": {
+              "en": "which avr",
+              "nl": "welk avr"
+            }
+          }
+        ]
+      },
+      {
+        "id": "t_sur_dolby",
+        "title": {
+          "en": "Surround mode dolby selected.",
+          "nl": "Surround mode dolby geselecteerd."
+        },
+        "args": [
+          {
+            "name": "avrname",
+            "type": "autocomplete",
+            "placeholder": {
+              "en": "which avr",
+              "nl": "welk avr"
+            }
+          }
+        ]
+      },
+      {
+        "id": "t_sur_dts",
+        "title": {
+          "en": "Surround mode dts selected.",
+          "nl": "Surround mode dts geselecteerd."
+        },
+        "args": [
+          {
+            "name": "avrname",
+            "type": "autocomplete",
+            "placeholder": {
+              "en": "which avr",
+              "nl": "welk avr"
+            }
+          }
+        ]
+      },
+      {
+        "id": "t_sur_game",
+        "title": {
+          "en": "Surround mode game selected.",
+          "nl": "Surround mode game geselecteerd."
+        },
+        "args": [
+          {
+            "name": "avrname",
+            "type": "autocomplete",
+            "placeholder": {
+              "en": "which avr",
+              "nl": "welk avr"
+            }
+          }
+        ]
+      },
+      {
+        "id": "t_sur_left",
+        "title": {
+          "en": "Surround mode left selected.",
+          "nl": "Surround mode left geselecteerd."
+        },
+        "args": [
+          {
+            "name": "avrname",
+            "type": "autocomplete",
+            "placeholder": {
+              "en": "which avr",
+              "nl": "welk avr"
+            }
+          }
+        ]
+      },
+      {
+        "id": "t_sur_matrix",
+        "title": {
+          "en": "Surround mode matrix selected.",
+          "nl": "Surround mode matrix geselecteerd."
+        },
+        "args": [
+          {
+            "name": "avrname",
+            "type": "autocomplete",
+            "placeholder": {
+              "en": "which avr",
+              "nl": "welk avr"
+            }
+          }
+        ]
+      },
+      {
+        "id": "t_sur_mchstereo",
+        "title": {
+          "en": "Surround mode multichannel stereo selected.",
+          "nl": "Surround mode multichannel stereo geselecteerd."
+        },
+        "args": [
+          {
+            "name": "avrname",
+            "type": "autocomplete",
+            "placeholder": {
+              "en": "which avr",
+              "nl": "welk avr"
+            }
+          }
+        ]
+      },
+      {
+        "id": "t_sur_movie",
+        "title": {
+          "en": "Surround mode movie selected.",
+          "nl": "Surround mode movie geselecteerd."
+        },
+        "args": [
+          {
+            "name": "avrname",
+            "type": "autocomplete",
+            "placeholder": {
+              "en": "which avr",
+              "nl": "welk avr"
+            }
+          }
+        ]
+      },
+      {
+        "id": "t_sur_music",
+        "title": {
+          "en": "Surround mode music selected.",
+          "nl": "Surround mode music geselecteerd."
+        },
+        "args": [
+          {
+            "name": "avrname",
+            "type": "autocomplete",
+            "placeholder": {
+              "en": "which avr",
+              "nl": "welk avr"
+            }
+          }
+        ]
+      },
+      {
+        "id": "t_sur_neural",
+        "title": {
+          "en": "Surround mode neural selected.",
+          "nl": "Surround mode neural geselecteerd."
+        },
+        "args": [
+          {
+            "name": "avrname",
+            "type": "autocomplete",
+            "placeholder": {
+              "en": "which avr",
+              "nl": "welk avr"
+            }
+          }
+        ]
+      },
+      {
+        "id": "t_sur_pure",
+        "title": {
+          "en": "Surround mode pure direct selected.",
+          "nl": "Surround mode pure direct geselecteerd."
+        },
+        "args": [
+          {
+            "name": "avrname",
+            "type": "autocomplete",
+            "placeholder": {
+              "en": "which avr",
+              "nl": "welk avr"
+            }
+          }
+        ]
+      },
+      {
+        "id": "t_sur_right",
+        "title": {
+          "en": "Surround mode right selected.",
+          "nl": "Surround mode right geselecteerd."
+        },
+        "args": [
+          {
+            "name": "avrname",
+            "type": "autocomplete",
+            "placeholder": {
+              "en": "which avr",
+              "nl": "welk avr"
+            }
+          }
+        ]
+      },
+      {
+        "id": "t_sur_standard",
+        "title": {
+          "en": "Surround mode standard selected.",
+          "nl": "Surround mode standard geselecteerd."
+        },
+        "args": [
+          {
+            "name": "avrname",
+            "type": "autocomplete",
+            "placeholder": {
+              "en": "which avr",
+              "nl": "welk avr"
+            }
+          }
+        ]
+      },
+      {
+        "id": "t_sur_stereo",
+        "title": {
+          "en": "Surround mode stereo selected.",
+          "nl": "Surround mode stereo geselecteerd."
+        },
+        "args": [
+          {
+            "name": "avrname",
+            "type": "autocomplete",
+            "placeholder": {
+              "en": "which avr",
+              "nl": "welk avr"
+            }
+          }
+        ]
+      },
+      {
+        "id": "t_sur_virtual",
+        "title": {
+          "en": "Surround mode virtual selected.",
+          "nl": "Surround mode virtual geselecteerd."
+        },
+        "args": [
+          {
+            "name": "avrname",
+            "type": "autocomplete",
+            "placeholder": {
+              "en": "which avr",
+              "nl": "welk avr"
+            }
+          }
+        ]
+      }
+    ]
+  }
 }

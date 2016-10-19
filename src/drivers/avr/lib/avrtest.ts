@@ -1,5 +1,14 @@
 "use strict";
 
+/* ================================================================== */
+/* = Note:                                                          = */
+/* = This is a generated javascript file.                           = */
+/* = Don't edit the javascript file directly or change might be     = */
+/* = lost with the next build.                                      = */
+/* = Edit the typescipt file instead and re-generate the javascript = */
+/* = file.                                                          = */
+/* ================================================================== */
+
 import * as fs       from "fs";
 import * as path     from "path";
 import * as events   from "events";
