@@ -923,9 +923,10 @@ let setUpListeners = (): void => {
 let setUpFlowActionsAndTriggers = () : void => {
 
   Homey.manager("flow")
-    /* ============================================================== */
-    /* = Homey autocomplete triggers                                = */
-    /* ============================================================== */
+  /* ============================================================== */
+  /* = Main power events                                         = */
+  /* ============================================================== */
+
     .on("trigger.t_power_on.avrname.autocomplete", (callback: Function): void => {
       prtDbg("t_power_on autocomplete trigger");
       callback( null, knownAvrs);
@@ -936,6 +937,102 @@ let setUpFlowActionsAndTriggers = () : void => {
       callback( null, knownAvrs);
     })
 
+    .on("trigger.t_power_on", (callback: Function, args: ArgsData , data: TriggerData ): void => {
+      prtDbg("On Trigger t_power_on called");
+      callback( null, true );
+    })
+
+    .on("trigger.t_power_off", (callback: Function, args: ArgsData , data: TriggerData ): void => {
+      prtDbg("On Trigger t_power_off called");
+      callback( null, true );
+    })
+
+    .on("action.poweron" , (callback: Function, args: ActionArgsInfo): void  =>  {
+      if ( avrDevArray[ args.device.avrindex ].used === true ) {
+        if ( avrDevArray[ args.device.avrindex ].available == true ) {
+          avrDevArray[ args.device.avrindex ].dev.powerOn();
+          callback( null, true );
+        } else {
+          prtMsg(`Error: ${args.device.avrname} is not available.`);
+          callback( new Error( getI18nString("error.devnotavail")), false );
+        }
+      } else {
+        prtMsg(`Error: Slot ${args.device.avrindex} is not used.`);
+        callback( new Error( getI18nString("error.devnotused")), false );
+      }
+    })
+
+    .on("action.poweroff", (callback: Function, args: ActionArgsInfo ): void => {
+      if ( avrDevArray[ args.device.avrindex ].used === true ) {
+        if ( avrDevArray[ args.device.avrindex ].available == true ) {
+          avrDevArray[ args.device.avrindex ].dev.powerOff();
+          callback( null, true );
+        } else {
+          prtMsg(`Error: ${args.device.avrname} is not available.`);
+          callback( new Error( getI18nString("error.devnotavail")), false );
+        }
+      } else {
+        prtMsg(`Error: Slot ${args.device.avrindex} is not used.`);
+        callback( new Error( getI18nString("error.devnotused")), false );
+      }
+    })
+
+    /* ============================================================== */
+    /* = Main zone power events                                     = */
+    /* ============================================================== */
+    .on("trigger.t_mzpower_on.avrname.autocomplete", (callback: Function): void => {
+      prtDbg("t_mzpower_on autocomplete trigger");
+      callback( null, knownAvrs);
+    })
+
+    .on("trigger.t_mzpower_off.avrname.autocomplete", (callback: Function): void => {
+      prtDbg("t_mzpower_off autocomplete trigger");
+      callback( null, knownAvrs);
+    })
+
+    .on("trigger.t_mzpower_on", (callback: Function, args: ArgsData , data: TriggerData ): void => {
+      prtDbg("On Trigger t_mzpower_on called");
+      callback( null, true );
+    })
+
+    .on("trigger.t_mzpower_off", (callback: Function, args: ArgsData , data: TriggerData ): void => {
+      prtDbg("On Trigger t_mzpower_off called");
+      callback( null, true );
+    })
+
+    .on("action.main_zone_poweron" , (callback: Function, args: ActionArgsInfo ): void => {
+      if ( avrDevArray[ args.device.avrindex ].used === true ) {
+        if ( avrDevArray[ args.device.avrindex ].available == true ) {
+          avrDevArray[ args.device.avrindex ].dev.mainZonePowerOn();
+          callback( null, true );
+        } else {
+          prtMsg(`Error: ${args.device.avrname} is not available.`);
+          callback( new Error( getI18nString("error.devnotavail")), false );
+        }
+      } else {
+        prtMsg(`Error: Slot ${args.device.avrindex} is not used.`);
+        callback( new Error( getI18nString("error.devnotused")), false );
+      }
+    })
+
+    .on("action.main_zone_poweroff", (callback: Function, args: ActionArgsInfo ): void => {
+      if ( avrDevArray[ args.device.avrindex ].used === true ) {
+        if ( avrDevArray[ args.device.avrindex ].available == true ) {
+          avrDevArray[ args.device.avrindex ].dev.mainZonePowerOff();
+          callback( null, true );
+        } else {
+          prtMsg(`Error: ${args.device.avrname} is not available.`);
+          callback( new Error( getI18nString("error.devnotavail")), false );
+        }
+      } else {
+        prtMsg(`Error: Slot ${args.device.avrindex} is not used.`);
+        callback( new Error( getI18nString("error.devnotused")), false );
+      }
+    })
+
+    /* ============================================================== */
+    /* = Mute events                                                = */
+    /* ============================================================== */
     .on("trigger.t_mute_on.avrname.autocomplete", (callback: Function): void => {
       prtDbg("t_mute_on autocomplete trigger");
       callback( null, knownAvrs);
@@ -943,6 +1040,59 @@ let setUpFlowActionsAndTriggers = () : void => {
 
     .on("trigger.t_mute_off.avrname.autocomplete", (callback: Function): void => {
       prtDbg("t_mute_off autocomplete trigger");
+      callback( null, knownAvrs);
+    })
+
+    .on("trigger.t_mute_on", (callback: Function, args: ArgsData , data: TriggerData ): void => {
+      prtDbg("On Trigger t_mute_on called");
+      callback( null, true );
+    })
+
+    .on("trigger.t_mute_off", (callback: Function, args: ArgsData , data: TriggerData ): void => {
+      prtDbg("On Trigger t_mute_off called");
+      callback( null, true );
+    })
+
+    .on("action.mute", (callback: Function, args: ActionArgsInfo ): void => {
+      if ( avrDevArray[ args.device.avrindex ].used === true ) {
+        if ( avrDevArray[ args.device.avrindex ].available == true ) {
+          avrDevArray[ args.device.avrindex ].dev.muteOn();
+          callback( null, true );
+        } else {
+          prtMsg(`Error: ${args.device.avrname} is not available.`);
+          callback( new Error( getI18nString("error.devnotavail")), false );
+        }
+      } else {
+        prtMsg(`Error: Slot ${args.device.avrindex} is not used.`);
+        callback( new Error( getI18nString("error.devnotused")), false );
+      }
+    })
+
+    .on("action.unmute", (callback: Function, args: ActionArgsInfo ): void => {
+      if ( avrDevArray[ args.device.avrindex ].used === true ) {
+        if ( avrDevArray[ args.device.avrindex ].available == true ) {
+          avrDevArray[ args.device.avrindex ].dev.muteOff();
+          callback( null, true );
+        } else {
+          prtMsg(`Error: ${args.device.avrname} is not available.`);
+          callback( new Error( getI18nString("error.devnotavail")), false );
+        }
+      } else {
+        prtMsg(`Error: Slot ${args.device.avrindex} is not used.`);
+        callback( new Error( getI18nString("error.devnotused")), false );
+      }
+    })
+
+    /* ============================================================== */
+    /* = Eco events                                                 = */
+    /* ============================================================== */
+    .on("trigger.t_eco_on.avrname.autocomplete", (callback: Function): void => {
+      prtDbg("t_eco_on autocomplete trigger");
+      callback( null, knownAvrs);
+    })
+
+    .on("trigger.t_eco_off.avrname.autocomplete", (callback: Function): void => {
+      prtDbg("t_eco_off autocomplete trigger");
       callback( null, knownAvrs);
     })
 
@@ -961,328 +1111,19 @@ let setUpFlowActionsAndTriggers = () : void => {
       callback( null, knownAvrs);
     })
 
-    .on("trigger.t_in_aux1.avrname.autocomplete", (callback: Function): void => {
-      prtDbg("t_in_aux1 autocomplete trigger");
-      callback( null, knownAvrs);
+    .on("trigger.t_eco_on", (callback: Function, args: ArgsData , data: TriggerData ): void => {
+      prtDbg("On Trigger t_eco_on called");
+      callback( null, true );
     })
 
-    .on("trigger.t_in_aux2.avrname.autocomplete", (callback: Function): void => {
-      prtDbg("t_in_aux2 autocomplete trigger");
-      callback( null, knownAvrs);
+    .on("trigger.t_eco_off", (callback: Function, args: ArgsData , data: TriggerData ): void => {
+      prtDbg("On Trigger t_eco_off called");
+      callback( null, true );
     })
 
-    .on("trigger.t_in_aux3.avrname.autocomplete", (callback: Function): void => {
-      prtDbg("t_in_aux3 autocomplete trigger");
-      callback( null, knownAvrs);
-    })
-
-    .on("trigger.t_in_aux4.avrname.autocomplete", (callback: Function): void => {
-      prtDbg("t_in_aux4 autocomplete trigger");
-      callback( null, knownAvrs);
-    })
-
-    .on("trigger.t_in_aux5.avrname.autocomplete", (callback: Function): void => {
-      prtDbg("t_in_aux5 autocomplete trigger");
-      callback( null, knownAvrs);
-    })
-
-    .on("trigger.t_in_aux6.avrname.autocomplete", (callback: Function): void => {
-      prtDbg("t_in_aux6 autocomplete trigger");
-      callback( null, knownAvrs);
-    })
-
-    .on("trigger.t_in_aux7.avrname.autocomplete", (callback: Function): void => {
-      prtDbg("t_in_aux7 autocomplete trigger");
-      callback( null, knownAvrs);
-    })
-
-    .on("trigger.t_in_bd.avrname.autocomplete", (callback: Function): void => {
-      prtDbg("t_in_bd autocomplete trigger");
-      callback( null, knownAvrs);
-    })
-
-    .on("trigger.t_in_bt.avrname.autocomplete", (callback: Function): void => {
-      prtDbg("t_in_bt autocomplete trigger");
-      callback( null, knownAvrs);
-    })
-
-    .on("trigger.t_in_cd.avrname.autocomplete", (callback: Function): void => {
-      prtDbg("t_in_cd autocomplete trigger");
-      callback( null, knownAvrs);
-    })
-
-    .on("trigger.t_in_cdr.avrname.autocomplete", (callback: Function): void => {
-      prtDbg("t_in_cdr autocomplete trigger");
-      callback( null, knownAvrs);
-    })
-
-    .on("trigger.t_in_dvd.avrname.autocomplete", (callback: Function): void => {
-      prtDbg("t_in_dvd autocomplete trigger");
-      callback( null, knownAvrs);
-    })
-
-    .on("trigger.t_in_favorites.avrname.autocomplete", (callback: Function): void => {
-      prtDbg("t_in_favorites autocomplete trigger");
-      callback( null, knownAvrs);
-    })
-
-    .on("trigger.t_in_flickr.avrname.autocomplete", (callback: Function): void => {
-      prtDbg("t_in_flickr autocomplete trigger");
-      callback( null, knownAvrs);
-    })
-
-    .on("trigger.t_in_game.avrname.autocomplete", (callback: Function): void => {
-      prtDbg("t_in_game autocomplete trigger");
-      callback( null, knownAvrs);
-    })
-
-    .on("trigger.t_in_iradio.avrname.autocomplete", (callback: Function): void => {
-      prtDbg("t_in_iradio autocomplete trigger");
-      callback( null, knownAvrs);
-    })
-
-    .on("trigger.t_in_mplay.avrname.autocomplete", (callback: Function): void => {
-      prtDbg("t_in_mplay autocomplete trigger");
-      callback( null, knownAvrs);
-    })
-
-    .on("trigger.t_in_mxport.avrname.autocomplete", (callback: Function): void => {
-      prtDbg("t_in_mxport autocomplete trigger");
-      callback( null, knownAvrs);
-    })
-
-    .on("trigger.t_in_napster.avrname.autocomplete", (callback: Function): void => {
-      prtDbg("t_in_napster autocomplete trigger");
-      callback( null, knownAvrs);
-    })
-
-    .on("trigger.t_in_net.avrname.autocomplete", (callback: Function): void => {
-      prtDbg("t_in_net autocomplete trigger");
-      callback( null, knownAvrs);
-    })
-
-    .on("trigger.t_in_net_usb.avrname.autocomplete", (callback: Function): void => {
-      prtDbg("t_in_net_usb autocomplete trigger");
-      callback( null, knownAvrs);
-    })
-
-    .on("trigger.t_in_phono.avrname.autocomplete", (callback: Function): void => {
-      prtDbg("t_in_phono autocomplete trigger");
-      callback( null, knownAvrs);
-    })
-
-    .on("trigger.t_in_sat.avrname.autocomplete", (callback: Function): void => {
-      prtDbg("t_in_sat autocomplete trigger");
-      callback( null, knownAvrs);
-    })
-
-    .on("trigger.t_in_sat_cbl.avrname.autocomplete", (callback: Function): void => {
-      prtDbg("t_in_sat_cbl autocomplete trigger");
-      callback( null, knownAvrs);
-    })
-
-    .on("trigger.t_in_server.avrname.autocomplete", (callback: Function): void => {
-      prtDbg("t_in_server autocomplete trigger");
-      callback( null, knownAvrs);
-    })
-
-    .on("trigger.t_in_spotify.avrname.autocomplete", (callback: Function): void => {
-      prtDbg("t_in_spotify autocomplete trigger");
-      callback( null, knownAvrs);
-    })
-
-    .on("trigger.t_in_tuner.avrname.autocomplete", (callback: Function): void => {
-      prtDbg("t_in_tuner autocomplete trigger");
-      callback( null, knownAvrs);
-    })
-
-    .on("trigger.t_in_tv.avrname.autocomplete", (callback: Function): void => {
-      prtDbg("t_in_tv autocomplete trigger");
-      callback( null, knownAvrs);
-    })
-
-    .on("trigger.t_in_usb_ipod.avrname.autocomplete", (callback: Function): void => {
-      prtDbg("t_in_usb_ipod autocomplete trigger");
-      callback( null, knownAvrs);
-    })
-
-    .on("trigger.t_in_v_aux.avrname.autocomplete", (callback: Function): void => {
-      prtDbg("t_in_v_aux autocomplete trigger");
-      callback( null, knownAvrs);
-    })
-
-    .on("trigger.t_in_vsr.avrname.autocomplete", (callback: Function): void => {
-      prtDbg("t_in_vcr autocomplete trigger");
-      callback( null, knownAvrs);
-    })
-
-    .on("trigger.t_in_usb.avrname.autocomplete", (callback: Function): void => {
-      prtDbg("t_in_usb autocomplete trigger");
-      callback( null, knownAvrs);
-    })
-
-    .on("trigger.t_in_ipd.avrname.autocomplete", (callback: Function): void => {
-      prtDbg("t_in_ipd autocomplete trigger");
-      callback( null, knownAvrs);
-    })
-
-    .on("trigger.t_in_irp.avrname.autocomplete", (callback: Function): void => {
-      prtDbg("t_in_irp autocomplete trigger");
-      callback( null, knownAvrs);
-    })
-
-    .on("trigger.t_in_fvp.avrname.autocomplete", (callback: Function): void => {
-      prtDbg("t_in_fvp autocomplete trigger");
-      callback( null, knownAvrs);
-    })
-
-    .on("trigger.t_in_otp.avrname.autocomplete", (callback: Function): void => {
-      prtDbg("t_in_otp autocomplete trigger");
-      callback( null, knownAvrs);
-    })
-
-    .on("trigger.t_sur_auto.avrname.autocomplete", (callback: Function): void => {
-      prtDbg("t_sur_auto autocomplete trigger");
-      callback( null, knownAvrs);
-    })
-
-    .on("trigger.t_sur_direct.avrname.autocomplete", (callback: Function): void => {
-      prtDbg("t_sur_direct autocomplete trigger");
-      callback( null, knownAvrs);
-    })
-
-    .on("trigger.t_sur_dolby.avrname.autocomplete", (callback: Function): void => {
-      prtDbg("t_sur_dolby autocomplete trigger");
-      callback( null, knownAvrs);
-    })
-
-    .on("trigger.t_sur_dts.avrname.autocomplete", (callback: Function): void => {
-      prtDbg("t_sur_dts autocomplete trigger");
-      callback( null, knownAvrs);
-    })
-
-    .on("trigger.t_sur_game.avrname.autocomplete", (callback: Function): void => {
-      prtDbg("t_sur_game autocomplete trigger");
-      callback( null, knownAvrs);
-    })
-
-    .on("trigger.t_sur_left.avrname.autocomplete", (callback: Function): void => {
-      prtDbg("t_sur_left autocomplete trigger");
-      callback( null, knownAvrs);
-    })
-
-    .on("trigger.t_sur_matrix.avrname.autocomplete", (callback: Function): void => {
-      prtDbg("t_sur_matrix autocomplete trigger");
-      callback( null, knownAvrs);
-    })
-
-    .on("trigger.t_sur_mchstereo.avrname.autocomplete", (callback: Function): void => {
-      prtDbg("t_sur_mchstereo autocomplete trigger");
-      callback( null, knownAvrs);
-    })
-
-    .on("trigger.t_sur_movie.avrname.autocomplete", (callback: Function): void => {
-      prtDbg("t_sur_movie autocomplete trigger");
-      callback( null, knownAvrs);
-    })
-
-    .on("trigger.t_sur_music.avrname.autocomplete", (callback: Function): void => {
-      prtDbg("t_sur_music autocomplete trigger");
-      callback( null, knownAvrs);
-    })
-
-    .on("trigger.t_sur_neural.avrname.autocomplete", (callback: Function): void => {
-      prtDbg("t_sur_neural autocomplete trigger");
-      callback( null, knownAvrs);
-    })
-
-    .on("trigger.t_sur_pure.avrname.autocomplete", (callback: Function): void => {
-      prtDbg("t_sur_pure autocomplete trigger");
-      callback( null, knownAvrs);
-    })
-
-    .on("trigger.t_sur_right.avrname.autocomplete", (callback: Function): void => {
-      prtDbg("t_sur_right autocomplete trigger");
-      callback( null, knownAvrs);
-    })
-
-    .on("trigger.t_sur_standard.avrname.autocomplete", (callback: Function): void => {
-      prtDbg("t_sur_standard autocomplete trigger");
-      callback( null, knownAvrs);
-    })
-
-    .on("trigger.t_sur_stereo.avrname.autocomplete", (callback: Function): void => {
-      prtDbg("t_sur_stereo autocomplete trigger");
-      callback( null, knownAvrs);
-    })
-
-    .on("trigger.t_sur_virtual.avrname.autocomplete", (callback: Function): void => {
-      prtDbg("t_sur_virtual autocomplete trigger");
-      callback( null, knownAvrs);
-    })
-
-    .on("action.selectinput.input.autocomplete", (callback: Function, args: ArgsComplete): void => {
-      if ( typeof(args.args.device.name) === "undefined" ) {
-        prtMsg("Error: No device selected");
-        callback( new Error( getI18nString("error.devnotsel")), false );
-      } else {
-        let index = -1 ;
-        for( let I = 0 ; I < MAX_AVRS ; I++ ){
-          if ( avrDevArray[I].used === true ) {
-            if ( avrDevArray[I].dev.getName() === args.args.device.name ) {
-              index = I;
-              break;
-            }
-          }
-        }
-        if ( index !== -1 ) {
-          let items = avrDevArray[ index ].dev.getValidInputSelection();
-          let cItems = [];
-
-          for ( let I = 0 ; I < items.length; I++ ){
-            cItems.push( {
-              command: items[I].command,
-              name:    getI18nString(items[I].i18n)
-            });
-          }
-          callback(null, cItems);
-        } else {
-          prtMsg(`Error: AVR ${args.args.device.name} not found.`);
-          callback( new Error( getI18nString("error.devnotused")), false );
-        }
-      }
-    })
-
-    .on("action.surround.input.autocomplete", (callback: Function, args: ArgsComplete ): void  => {
-      if ( typeof(args.args.device.name) === "undefined" ) {
-        prtMsg("Error: No device selected");
-        callback( new Error( getI18nString("error.devnotsel")), false );
-      } else {
-        let index = -1 ;
-        for( let I = 0 ; I < MAX_AVRS ; I++ ){
-          if ( avrDevArray[I].used === true ) {
-            if ( avrDevArray[I].dev.getName() === args.args.device.name ) {
-              index = I;
-              break;
-            }
-          }
-        }
-        if ( index !== -1 ) {
-          let items = avrDevArray[ index ].dev.getValidSurround();
-          let cItems = [];
-
-          for ( let I = 0 ; I < items.length; I++ ){
-            cItems.push( {
-              command: items[I].command,
-              name:    getI18nString(items[I].i18n)
-            });
-          }
-          callback(null, cItems);
-        } else {
-          prtMsg(`Error: AVR ${args.args.device.name} not found.`);
-          callback( new Error( getI18nString("error.devnotused")), false );
-        }
-      }
+    .on("trigger.t_eco_auto", (callback: Function, args: ArgsData , data: TriggerData ): void => {
+      prtDbg("On Trigger t_eco_auto called");
+      callback( null, true );
     })
 
     .on("action.eco.input.autocomplete", (callback: Function, args: ArgsComplete): void => {
@@ -1315,47 +1156,80 @@ let setUpFlowActionsAndTriggers = () : void => {
           callback( new Error( getI18nString("error.devnotused")), false );
         }
       }
-    });
+    })
+
+    .on("action.eco", (callback: Function, args: ActionArgsInfo ): void  => {
+      prtDbg("Surroung action");
+      prtDbg( JSON.stringify( args ));
+      if ( avrDevArray[ args.device.avrindex ].used === true ) {
+        if ( avrDevArray[ args.device.avrindex ].available == true ) {
+          avrDevArray[ args.device.avrindex ].dev.sendEcoCommand(args.input.command);
+          callback(null, true);
+        } else {
+          prtMsg(`Error: ${args.device.avrname} is not available.`);
+          callback( new Error( getI18nString("error.devnotavail")), false );
+        }
+      } else {
+        prtMsg(`Error: ${args.device.avrname} has not loaded the configuration.`);
+        callback( new Error( getI18nString("error.devnotconf")), false );
+      }
+    })
 
     /* ============================================================== */
-    /* = Homey triggers                                             = */
+    /* = inputsource events                                         = */
     /* ============================================================== */
+    //General
+    .on("action.selectinput.input.autocomplete", (callback: Function, args: ArgsComplete): void => {
+      if ( typeof(args.args.device.name) === "undefined" ) {
+        prtMsg("Error: No device selected");
+        callback( new Error( getI18nString("error.devnotsel")), false );
+      } else {
+        let index = -1 ;
+        for( let I = 0 ; I < MAX_AVRS ; I++ ){
+          if ( avrDevArray[I].used === true ) {
+            if ( avrDevArray[I].dev.getName() === args.args.device.name ) {
+              index = I;
+              break;
+            }
+          }
+        }
+        if ( index !== -1 ) {
+          let items = avrDevArray[ index ].dev.getValidInputSelection();
+          let cItems = [];
 
-  Homey.manager("flow")
-
-    .on("trigger.t_power_on", (callback: Function, args: ArgsData , data: TriggerData ): void => {
-      prtDbg("On Trigger t_power_on called");
-      callback( null, true );
+          for ( let I = 0 ; I < items.length; I++ ){
+            cItems.push( {
+              command: items[I].command,
+              name:    getI18nString(items[I].i18n)
+            });
+          }
+          callback(null, cItems);
+        } else {
+          prtMsg(`Error: AVR ${args.args.device.name} not found.`);
+          callback( new Error( getI18nString("error.devnotused")), false );
+        }
+      }
     })
 
-    .on("trigger.t_power_off", (callback: Function, args: ArgsData , data: TriggerData ): void => {
-      prtDbg("On Trigger t_power_off called");
-      callback( null, true );
+    .on("action.selectinput", (callback: Function, args: ActionArgsInfo ): void => {
+      if ( avrDevArray[ args.device.avrindex ].used === true ) {
+        if ( avrDevArray[ args.device.avrindex ].available == true ) {
+          avrDevArray[ args.device.avrindex ].dev.selectInputSource(args.input.command);
+          callback(null, true);
+        } else {
+          prtMsg(`Error: ${args.device.avrname} is not available.`);
+          callback( new Error( getI18nString("error.devnotavail")), false );
+        }
+      } else {
+        prtMsg(`Error: ${args.device.avrname} has not loaded the configuration.`);
+        callback( new Error( getI18nString("error.devnotconf")), false );
+      }
     })
 
-    .on("trigger.t_mute_on", (callback: Function, args: ArgsData , data: TriggerData ): void => {
-      prtDbg("On Trigger t_mute_on called");
-      callback( null, true );
-    })
-
-    .on("trigger.t_mute_off", (callback: Function, args: ArgsData , data: TriggerData ): void => {
-      prtDbg("On Trigger t_mute_off called");
-      callback( null, true );
-    })
-
-    .on("trigger.t_eco_on", (callback: Function, args: ArgsData , data: TriggerData ): void => {
-      prtDbg("On Trigger t_eco_on called");
-      callback( null, true );
-    })
-
-    .on("trigger.t_eco_off", (callback: Function, args: ArgsData , data: TriggerData ): void => {
-      prtDbg("On Trigger t_eco_off called");
-      callback( null, true );
-    })
-
-    .on("trigger.t_eco_auto", (callback: Function, args: ArgsData , data: TriggerData ): void => {
-      prtDbg("On Trigger t_eco_auto called");
-      callback( null, true );
+    // AUX1
+    .on("trigger.t_in_aux1.avrname.autocomplete", (callback: Function): void => {
+      prtDbg("t_in_aux1 autocomplete trigger");
+      callback( null, knownAvrs);
     })
 
     .on("trigger.t_in_aux1", (callback: Function, args: ArgsData , data: TriggerData ): void => {
@@ -1363,9 +1237,21 @@ let setUpFlowActionsAndTriggers = () : void => {
       callback( null, true );
     })
 
+    //AUX2
+    .on("trigger.t_in_aux2.avrname.autocomplete", (callback: Function): void => {
+      prtDbg("t_in_aux2 autocomplete trigger");
+      callback( null, knownAvrs);
+    })
+
     .on("trigger.t_in_aux2", (callback: Function, args: ArgsData , data: TriggerData ): void => {
       prtDbg("On Trigger t_in_aux2 called");
       callback( null, true );
+    })
+
+    //AUX3
+    .on("trigger.t_in_aux3.avrname.autocomplete", (callback: Function): void => {
+      prtDbg("t_in_aux3 autocomplete trigger");
+      callback( null, knownAvrs);
     })
 
     .on("trigger.t_in_aux3", (callback: Function, args: ArgsData , data: TriggerData ): void => {
@@ -1373,9 +1259,21 @@ let setUpFlowActionsAndTriggers = () : void => {
       callback( null, true );
     })
 
+    //aux4
+    .on("trigger.t_in_aux4.avrname.autocomplete", (callback: Function): void => {
+      prtDbg("t_in_aux4 autocomplete trigger");
+      callback( null, knownAvrs);
+    })
+
     .on("trigger.t_in_aux4", (callback: Function, args: ArgsData , data: TriggerData ): void => {
       prtDbg("On Trigger t_in_aux4 called");
       callback( null, true );
+    })
+
+    //AUX5
+    .on("trigger.t_in_aux5.avrname.autocomplete", (callback: Function): void => {
+      prtDbg("t_in_aux5 autocomplete trigger");
+      callback( null, knownAvrs);
     })
 
     .on("trigger.t_in_aux5", (callback: Function, args: ArgsData , data: TriggerData ): void => {
@@ -1383,9 +1281,21 @@ let setUpFlowActionsAndTriggers = () : void => {
       callback( null, true );
     })
 
+    //AUX6
+    .on("trigger.t_in_aux6.avrname.autocomplete", (callback: Function): void => {
+      prtDbg("t_in_aux6 autocomplete trigger");
+      callback( null, knownAvrs);
+    })
+
     .on("trigger.t_in_aux6", (callback: Function, args: ArgsData , data: TriggerData ): void => {
       prtDbg("On Trigger t_in_aux6 called");
       callback( null, true );
+    })
+
+    //AUX7
+    .on("trigger.t_in_aux7.avrname.autocomplete", (callback: Function): void => {
+      prtDbg("t_in_aux7 autocomplete trigger");
+      callback( null, knownAvrs);
     })
 
     .on("trigger.t_in_aux7", (callback: Function, args: ArgsData , data: TriggerData ): void => {
@@ -1393,9 +1303,21 @@ let setUpFlowActionsAndTriggers = () : void => {
       callback( null, true );
     })
 
+    //Bluray
+    .on("trigger.t_in_bd.avrname.autocomplete", (callback: Function): void => {
+      prtDbg("t_in_bd autocomplete trigger");
+      callback( null, knownAvrs);
+    })
+
     .on("trigger.t_in_bd", (callback: Function, args: ArgsData , data: TriggerData ): void => {
       prtDbg("On Trigger t_in_bd called");
       callback( null, true );
+    })
+
+    // Bluetooth
+    .on("trigger.t_in_bt.avrname.autocomplete", (callback: Function): void => {
+      prtDbg("t_in_bt autocomplete trigger");
+      callback( null, knownAvrs);
     })
 
     .on("trigger.t_in_bt", (callback: Function, args: ArgsData , data: TriggerData ): void => {
@@ -1403,9 +1325,21 @@ let setUpFlowActionsAndTriggers = () : void => {
       callback( null, true );
     })
 
+    // CD
+    .on("trigger.t_in_cd.avrname.autocomplete", (callback: Function): void => {
+      prtDbg("t_in_cd autocomplete trigger");
+      callback( null, knownAvrs);
+    })
+
     .on("trigger.t_in_cd", (callback: Function, args: ArgsData , data: TriggerData ): void => {
       prtDbg("On Trigger t_in_cd called");
       callback( null, true );
+    })
+
+    // CDR
+    .on("trigger.t_in_cdr.avrname.autocomplete", (callback: Function): void => {
+      prtDbg("t_in_cdr autocomplete trigger");
+      callback( null, knownAvrs);
     })
 
     .on("trigger.t_in_cdr", (callback: Function, args: ArgsData , data: TriggerData ): void => {
@@ -1413,9 +1347,21 @@ let setUpFlowActionsAndTriggers = () : void => {
       callback( null, true );
     })
 
+    // DVD
+    .on("trigger.t_in_dvd.avrname.autocomplete", (callback: Function): void => {
+      prtDbg("t_in_dvd autocomplete trigger");
+      callback( null, knownAvrs);
+    })
+
     .on("trigger.t_in_dvd", (callback: Function, args: ArgsData , data: TriggerData ): void => {
       prtDbg("On Trigger t_in_dvd called");
       callback( null, true );
+    })
+
+    // Favortites
+    .on("trigger.t_in_favorites.avrname.autocomplete", (callback: Function): void => {
+      prtDbg("t_in_favorites autocomplete trigger");
+      callback( null, knownAvrs);
     })
 
     .on("trigger.t_in_favorites", (callback: Function, args: ArgsData , data: TriggerData ): void => {
@@ -1423,9 +1369,21 @@ let setUpFlowActionsAndTriggers = () : void => {
       callback( null, true );
     })
 
+    // Flickr
+    .on("trigger.t_in_flickr.avrname.autocomplete", (callback: Function): void => {
+      prtDbg("t_in_flickr autocomplete trigger");
+      callback( null, knownAvrs);
+    })
+
     .on("trigger.t_in_flickr", (callback: Function, args: ArgsData , data: TriggerData ): void => {
       prtDbg("On Trigger t_in_flickr called");
       callback( null, true );
+    })
+
+    // GAME
+    .on("trigger.t_in_game.avrname.autocomplete", (callback: Function): void => {
+      prtDbg("t_in_game autocomplete trigger");
+      callback( null, knownAvrs);
     })
 
     .on("trigger.t_in_game", (callback: Function, args: ArgsData , data: TriggerData ): void => {
@@ -1433,9 +1391,21 @@ let setUpFlowActionsAndTriggers = () : void => {
       callback( null, true );
     })
 
+    // Internet radio
+    .on("trigger.t_in_iradio.avrname.autocomplete", (callback: Function): void => {
+      prtDbg("t_in_iradio autocomplete trigger");
+      callback( null, knownAvrs);
+    })
+
     .on("trigger.t_in_iradio", (callback: Function, args: ArgsData , data: TriggerData ): void => {
       prtDbg("On Trigger t_in_iradio called");
       callback( null, true );
+    })
+
+    // MPLAY
+    .on("trigger.t_in_mplay.avrname.autocomplete", (callback: Function): void => {
+      prtDbg("t_in_mplay autocomplete trigger");
+      callback( null, knownAvrs);
     })
 
     .on("trigger.t_in_mplay", (callback: Function, args: ArgsData , data: TriggerData ): void => {
@@ -1443,9 +1413,21 @@ let setUpFlowActionsAndTriggers = () : void => {
       callback( null, true );
     })
 
+    // MXPORT
+    .on("trigger.t_in_mxport.avrname.autocomplete", (callback: Function): void => {
+      prtDbg("t_in_mxport autocomplete trigger");
+      callback( null, knownAvrs);
+    })
+
     .on("trigger.t_in_mxport", (callback: Function, args: ArgsData , data: TriggerData ): void => {
       prtDbg("On Trigger t_in_mxport called");
       callback( null, true );
+    })
+
+    // Napster
+    .on("trigger.t_in_napster.avrname.autocomplete", (callback: Function): void => {
+      prtDbg("t_in_napster autocomplete trigger");
+      callback( null, knownAvrs);
     })
 
     .on("trigger.t_in_napster", (callback: Function, args: ArgsData , data: TriggerData ): void => {
@@ -1453,9 +1435,21 @@ let setUpFlowActionsAndTriggers = () : void => {
       callback( null, true );
     })
 
+    // NET
+    .on("trigger.t_in_net.avrname.autocomplete", (callback: Function): void => {
+      prtDbg("t_in_net autocomplete trigger");
+      callback( null, knownAvrs);
+    })
+
     .on("trigger.t_in_net", (callback: Function, args: ArgsData , data: TriggerData ): void => {
       prtDbg("On Trigger t_in_net called");
       callback( null, true );
+    })
+
+    // NET/USB
+    .on("trigger.t_in_net_usb.avrname.autocomplete", (callback: Function): void => {
+      prtDbg("t_in_net_usb autocomplete trigger");
+      callback( null, knownAvrs);
     })
 
     .on("trigger.t_in_net_usb", (callback: Function, args: ArgsData , data: TriggerData ): void => {
@@ -1463,9 +1457,21 @@ let setUpFlowActionsAndTriggers = () : void => {
       callback( null, true );
     })
 
+    // Phono
+    .on("trigger.t_in_phono.avrname.autocomplete", (callback: Function): void => {
+      prtDbg("t_in_phono autocomplete trigger");
+      callback( null, knownAvrs);
+    })
+
     .on("trigger.t_in_phono", (callback: Function, args: ArgsData , data: TriggerData ): void => {
       prtDbg("On Trigger t_in_phono called");
       callback( null, true );
+    })
+
+    // SAT
+    .on("trigger.t_in_sat.avrname.autocomplete", (callback: Function): void => {
+      prtDbg("t_in_sat autocomplete trigger");
+      callback( null, knownAvrs);
     })
 
     .on("trigger.t_in_sat", (callback: Function, args: ArgsData , data: TriggerData ): void => {
@@ -1473,9 +1479,21 @@ let setUpFlowActionsAndTriggers = () : void => {
       callback( null, true );
     })
 
+    // SAT/CBL
+    .on("trigger.t_in_sat_cbl.avrname.autocomplete", (callback: Function): void => {
+      prtDbg("t_in_sat_cbl autocomplete trigger");
+      callback( null, knownAvrs);
+    })
+
     .on("trigger.t_in_sta_cbl", (callback: Function, args: ArgsData , data: TriggerData ): void => {
       prtDbg("On Trigger t_in_sat_cbl called");
       callback( null, true );
+    })
+
+    // SERVER
+    .on("trigger.t_in_server.avrname.autocomplete", (callback: Function): void => {
+      prtDbg("t_in_server autocomplete trigger");
+      callback( null, knownAvrs);
     })
 
     .on("trigger.t_in_server", (callback: Function, args: ArgsData , data: TriggerData ): void => {
@@ -1483,9 +1501,21 @@ let setUpFlowActionsAndTriggers = () : void => {
       callback( null, true );
     })
 
+    // Spotify
+    .on("trigger.t_in_spotify.avrname.autocomplete", (callback: Function): void => {
+      prtDbg("t_in_spotify autocomplete trigger");
+      callback( null, knownAvrs);
+    })
+
     .on("trigger.t_in_spotify", (callback: Function, args: ArgsData , data: TriggerData ): void => {
       prtDbg("On Trigger t_in_spotify called");
       callback( null, true );
+    })
+
+    // Tuner
+    .on("trigger.t_in_tuner.avrname.autocomplete", (callback: Function): void => {
+      prtDbg("t_in_tuner autocomplete trigger");
+      callback( null, knownAvrs);
     })
 
     .on("trigger.t_in_tuner", (callback: Function, args: ArgsData , data: TriggerData ): void => {
@@ -1493,9 +1523,21 @@ let setUpFlowActionsAndTriggers = () : void => {
       callback( null, true );
     })
 
+    // TV
+    .on("trigger.t_in_tv.avrname.autocomplete", (callback: Function): void => {
+      prtDbg("t_in_tv autocomplete trigger");
+      callback( null, knownAvrs);
+    })
+
     .on("trigger.t_in_tv", (callback: Function, args: ArgsData , data: TriggerData ): void => {
       prtDbg("On Trigger t_in_tv called");
       callback( null, true );
+    })
+
+    // USB/IPOD
+    .on("trigger.t_in_usb_ipod.avrname.autocomplete", (callback: Function): void => {
+      prtDbg("t_in_usb_ipod autocomplete trigger");
+      callback( null, knownAvrs);
     })
 
     .on("trigger.t_in_usb_ipod", (callback: Function, args: ArgsData , data: TriggerData ): void => {
@@ -1503,9 +1545,21 @@ let setUpFlowActionsAndTriggers = () : void => {
       callback( null, true );
     })
 
+    // V_AUX
+    .on("trigger.t_in_v_aux.avrname.autocomplete", (callback: Function): void => {
+      prtDbg("t_in_v_aux autocomplete trigger");
+      callback( null, knownAvrs);
+    })
+
     .on("trigger.t_in_v_aux", (callback: Function, args: ArgsData , data: TriggerData ): void => {
       prtDbg("On Trigger t_in_v_aux called");
       callback( null, true );
+    })
+
+    //VCR
+    .on("trigger.t_in_vcr.avrname.autocomplete", (callback: Function): void => {
+      prtDbg("t_in_vcr autocomplete trigger");
+      callback( null, knownAvrs);
     })
 
     .on("trigger.t_in_vcr", (callback: Function, args: ArgsData , data: TriggerData ): void => {
@@ -1513,9 +1567,21 @@ let setUpFlowActionsAndTriggers = () : void => {
       callback( null, true );
     })
 
+    // USB
+    .on("trigger.t_in_usb.avrname.autocomplete", (callback: Function): void => {
+      prtDbg("t_in_usb autocomplete trigger");
+      callback( null, knownAvrs);
+    })
+
     .on("trigger.t_in_usb", (callback: Function, args: ArgsData , data: TriggerData ): void => {
       prtDbg("On Trigger t_in_usb called");
       callback( null, true );
+    })
+
+    // IPD
+    .on("trigger.t_in_ipd.avrname.autocomplete", (callback: Function): void => {
+      prtDbg("t_in_ipd autocomplete trigger");
+      callback( null, knownAvrs);
     })
 
     .on("trigger.t_in_ipd", (callback: Function, args: ArgsData , data: TriggerData ): void => {
@@ -1523,9 +1589,21 @@ let setUpFlowActionsAndTriggers = () : void => {
       callback( null, true );
     })
 
+    // IRP
+    .on("trigger.t_in_irp.avrname.autocomplete", (callback: Function): void => {
+      prtDbg("t_in_irp autocomplete trigger");
+      callback( null, knownAvrs);
+    })
+
     .on("trigger.t_in_irp", (callback: Function, args: ArgsData , data: TriggerData ): void => {
       prtDbg("On Trigger t_in_irp called");
       callback( null, true );
+    })
+
+    // FVP
+    .on("trigger.t_in_fvp.avrname.autocomplete", (callback: Function): void => {
+      prtDbg("t_in_fvp autocomplete trigger");
+      callback( null, knownAvrs);
     })
 
     .on("trigger.t_in_fvp", (callback: Function, args: ArgsData , data: TriggerData ): void => {
@@ -1533,9 +1611,73 @@ let setUpFlowActionsAndTriggers = () : void => {
       callback( null, true );
     })
 
+    // OTP
+    .on("trigger.t_in_otp.avrname.autocomplete", (callback: Function): void => {
+      prtDbg("t_in_otp autocomplete trigger");
+      callback( null, knownAvrs);
+    })
+
     .on("trigger.t_in_otp", (callback: Function, args: ArgsData , data: TriggerData ): void => {
       prtDbg("On Trigger t_in_otp called");
       callback( null, true );
+    })
+
+    /* ============================================================== */
+    /* = surround mode events                                       = */
+    /* ============================================================== */
+    // General
+    .on("action.surround.input.autocomplete", (callback: Function, args: ArgsComplete ): void  => {
+      if ( typeof(args.args.device.name) === "undefined" ) {
+        prtMsg("Error: No device selected");
+        callback( new Error( getI18nString("error.devnotsel")), false );
+      } else {
+        let index = -1 ;
+        for( let I = 0 ; I < MAX_AVRS ; I++ ){
+          if ( avrDevArray[I].used === true ) {
+            if ( avrDevArray[I].dev.getName() === args.args.device.name ) {
+              index = I;
+              break;
+            }
+          }
+        }
+        if ( index !== -1 ) {
+          let items = avrDevArray[ index ].dev.getValidSurround();
+          let cItems = [];
+
+          for ( let I = 0 ; I < items.length; I++ ){
+            cItems.push( {
+              command: items[I].command,
+              name:    getI18nString(items[I].i18n)
+            });
+          }
+          callback(null, cItems);
+        } else {
+          prtMsg(`Error: AVR ${args.args.device.name} not found.`);
+          callback( new Error( getI18nString("error.devnotused")), false );
+        }
+      }
+    })
+
+    .on("action.surround", (callback: Function, args: ActionArgsInfo ): void  => {
+
+      if ( avrDevArray[ args.device.avrindex ].used === true ) {
+        if ( avrDevArray[ args.device.avrindex ].available == true ) {
+          avrDevArray[ args.device.avrindex ].dev.setSurrroundCommand(args.input.command);
+          callback(null, true);
+        } else {
+          prtMsg(`Error: ${args.device.avrname} is not available.`);
+          callback( new Error( getI18nString("error.devnotavail")), false );
+        }
+      } else {
+        prtMsg(`Error: ${args.device.avrname} has not loaded the configuration.`);
+        callback( new Error( getI18nString("error.devnotconf")), false );
+      }
+    })
+
+    // Auto
+    .on("trigger.t_sur_auto.avrname.autocomplete", (callback: Function): void => {
+      prtDbg("t_sur_auto autocomplete trigger");
+      callback( null, knownAvrs);
     })
 
     .on("trigger.t_sur_auto", (callback: Function, args: ArgsData , data: TriggerData ): void => {
@@ -1543,9 +1685,21 @@ let setUpFlowActionsAndTriggers = () : void => {
       callback( null, true );
     })
 
+    // Direct
+    .on("trigger.t_sur_direct.avrname.autocomplete", (callback: Function): void => {
+      prtDbg("t_sur_direct autocomplete trigger");
+      callback( null, knownAvrs);
+    })
+
     .on("trigger.t_sur_direct", (callback: Function, args: ArgsData , data: TriggerData ): void => {
       prtDbg("On Trigger t_sur_direct called");
       callback( null, true );
+    })
+
+    // Dolby
+    .on("trigger.t_sur_dolby.avrname.autocomplete", (callback: Function): void => {
+      prtDbg("t_sur_dolby autocomplete trigger");
+      callback( null, knownAvrs);
     })
 
     .on("trigger.t_sur_dolby", (callback: Function, args: ArgsData , data: TriggerData ): void => {
@@ -1553,9 +1707,21 @@ let setUpFlowActionsAndTriggers = () : void => {
       callback( null, true );
     })
 
+    // DTS
+    .on("trigger.t_sur_dts.avrname.autocomplete", (callback: Function): void => {
+      prtDbg("t_sur_dts autocomplete trigger");
+      callback( null, knownAvrs);
+    })
+
     .on("trigger.t_sur_dts", (callback: Function, args: ArgsData , data: TriggerData ): void => {
       prtDbg("On Trigger t_sur_dts called");
       callback( null, true );
+    })
+
+    // GAME
+    .on("trigger.t_sur_game.avrname.autocomplete", (callback: Function): void => {
+      prtDbg("t_sur_game autocomplete trigger");
+      callback( null, knownAvrs);
     })
 
     .on("trigger.t_sur_game", (callback: Function, args: ArgsData , data: TriggerData ): void => {
@@ -1563,9 +1729,21 @@ let setUpFlowActionsAndTriggers = () : void => {
       callback( null, true );
     })
 
+    // Left
+    .on("trigger.t_sur_left.avrname.autocomplete", (callback: Function): void => {
+      prtDbg("t_sur_left autocomplete trigger");
+      callback( null, knownAvrs);
+    })
+
     .on("trigger.t_sur_left", (callback: Function, args: ArgsData , data: TriggerData ): void => {
       prtDbg("On Trigger t_sur_left called");
       callback( null, true );
+    })
+
+    // MATRIX
+    .on("trigger.t_sur_matrix.avrname.autocomplete", (callback: Function): void => {
+      prtDbg("t_sur_matrix autocomplete trigger");
+      callback( null, knownAvrs);
     })
 
     .on("trigger.t_sur_matrix", (callback: Function, args: ArgsData , data: TriggerData ): void => {
@@ -1573,9 +1751,21 @@ let setUpFlowActionsAndTriggers = () : void => {
       callback( null, true );
     })
 
+    // Multi Channel Stereo
+    .on("trigger.t_sur_mchstereo.avrname.autocomplete", (callback: Function): void => {
+      prtDbg("t_sur_mchstereo autocomplete trigger");
+      callback( null, knownAvrs);
+    })
+
     .on("trigger.t_sur_mchstereo", (callback: Function, args: ArgsData , data: TriggerData ): void => {
       prtDbg("On Trigger t_sur_mchstereo called");
       callback( null, true );
+    })
+
+    // Movie
+    .on("trigger.t_sur_movie.avrname.autocomplete", (callback: Function): void => {
+      prtDbg("t_sur_movie autocomplete trigger");
+      callback( null, knownAvrs);
     })
 
     .on("trigger.t_sur_movie", (callback: Function, args: ArgsData , data: TriggerData ): void => {
@@ -1583,9 +1773,21 @@ let setUpFlowActionsAndTriggers = () : void => {
       callback( null, true );
     })
 
+    // Music
+    .on("trigger.t_sur_music.avrname.autocomplete", (callback: Function): void => {
+      prtDbg("t_sur_music autocomplete trigger");
+      callback( null, knownAvrs);
+    })
+
     .on("trigger.t_sur_music", (callback: Function, args: ArgsData , data: TriggerData ): void => {
       prtDbg("On Trigger t_sur_music called");
       callback( null, true );
+    })
+
+    // Neural
+    .on("trigger.t_sur_neural.avrname.autocomplete", (callback: Function): void => {
+      prtDbg("t_sur_neural autocomplete trigger");
+      callback( null, knownAvrs);
     })
 
     .on("trigger.t_sur_neural", (callback: Function, args: ArgsData , data: TriggerData ): void => {
@@ -1593,9 +1795,22 @@ let setUpFlowActionsAndTriggers = () : void => {
       callback( null, true );
     })
 
+    // Pure Direct
+    .on("trigger.t_sur_pure.avrname.autocomplete", (callback: Function): void => {
+      prtDbg("t_sur_pure autocomplete trigger");
+      callback( null, knownAvrs);
+    })
+
     .on("trigger.t_sur_pure", (callback: Function, args: ArgsData , data: TriggerData ): void => {
       prtDbg("On Trigger t_sur_pure called");
       callback( null, true );
+    })
+
+
+    // Right
+    .on("trigger.t_sur_right.avrname.autocomplete", (callback: Function): void => {
+      prtDbg("t_sur_right autocomplete trigger");
+      callback( null, knownAvrs);
     })
 
     .on("trigger.t_sur_right", (callback: Function, args: ArgsData , data: TriggerData ): void => {
@@ -1603,9 +1818,21 @@ let setUpFlowActionsAndTriggers = () : void => {
       callback( null, true );
     })
 
+    // Standard
+    .on("trigger.t_sur_standard.avrname.autocomplete", (callback: Function): void => {
+      prtDbg("t_sur_standard autocomplete trigger");
+      callback( null, knownAvrs);
+    })
+
     .on("trigger.t_sur_standard", (callback: Function, args: ArgsData , data: TriggerData ): void => {
       prtDbg("On Trigger t_sur_standard called");
       callback( null, true );
+    })
+
+    // Stereo
+    .on("trigger.t_sur_stereo.avrname.autocomplete", (callback: Function): void => {
+      prtDbg("t_sur_stereo autocomplete trigger");
+      callback( null, knownAvrs);
     })
 
     .on("trigger.t_sur_stereo", (callback: Function, args: ArgsData , data: TriggerData ): void => {
@@ -1613,117 +1840,20 @@ let setUpFlowActionsAndTriggers = () : void => {
       callback( null, true );
     })
 
+    // Virtual
+    .on("trigger.t_sur_virtual.avrname.autocomplete", (callback: Function): void => {
+      prtDbg("t_sur_virtual autocomplete trigger");
+      callback( null, knownAvrs);
+    })
+
     .on("trigger.t_sur_virtual", (callback: Function, args: ArgsData , data: TriggerData ): void => {
       prtDbg("On Trigger t_sur_virtual called");
       callback( null, true );
-    });
-
-  /* ================================================================ */
-  /* = Action events                                                = */
-  /* ================================================================ */
-  Homey.manager("flow")
-      /* ============================================================ */
-      /* = Main power action events                                  = */
-      /* ============================================================= */
-    .on("action.poweron" , (callback: Function, args: ActionArgsInfo): void  =>  {
-      if ( avrDevArray[ args.device.avrindex ].used === true ) {
-        if ( avrDevArray[ args.device.avrindex ].available == true ) {
-          avrDevArray[ args.device.avrindex ].dev.powerOn();
-          callback( null, true );
-        } else {
-          prtMsg(`Error: ${args.device.avrname} is not available.`);
-          callback( new Error( getI18nString("error.devnotavail")), false );
-        }
-      } else {
-        prtMsg(`Error: Slot ${args.device.avrindex} is not used.`);
-        callback( new Error( getI18nString("error.devnotused")), false );
-      }
     })
 
-    .on("action.poweroff", (callback: Function, args: ActionArgsInfo ): void => {
-      if ( avrDevArray[ args.device.avrindex ].used === true ) {
-        if ( avrDevArray[ args.device.avrindex ].available == true ) {
-          avrDevArray[ args.device.avrindex ].dev.powerOff();
-          callback( null, true );
-        } else {
-          prtMsg(`Error: ${args.device.avrname} is not available.`);
-          callback( new Error( getI18nString("error.devnotavail")), false );
-        }
-      } else {
-        prtMsg(`Error: Slot ${args.device.avrindex} is not used.`);
-        callback( new Error( getI18nString("error.devnotused")), false );
-      }
-    })
-
-    /* ================================================================ */
-    /* = Main zone power action events                                = */
-    /* ================================================================ */
-    .on("action.main_zone_poweron" , (callback: Function, args: ActionArgsInfo ): void => {
-      if ( avrDevArray[ args.device.avrindex ].used === true ) {
-        if ( avrDevArray[ args.device.avrindex ].available == true ) {
-          avrDevArray[ args.device.avrindex ].dev.mainZonePowerOn();
-          callback( null, true );
-        } else {
-          prtMsg(`Error: ${args.device.avrname} is not available.`);
-          callback( new Error( getI18nString("error.devnotavail")), false );
-        }
-      } else {
-        prtMsg(`Error: Slot ${args.device.avrindex} is not used.`);
-        callback( new Error( getI18nString("error.devnotused")), false );
-      }
-    })
-
-    .on("action.main_zone_poweroff", (callback: Function, args: ActionArgsInfo ): void => {
-      if ( avrDevArray[ args.device.avrindex ].used === true ) {
-        if ( avrDevArray[ args.device.avrindex ].available == true ) {
-          avrDevArray[ args.device.avrindex ].dev.mainZonePowerOff();
-          callback( null, true );
-        } else {
-          prtMsg(`Error: ${args.device.avrname} is not available.`);
-          callback( new Error( getI18nString("error.devnotavail")), false );
-        }
-      } else {
-        prtMsg(`Error: Slot ${args.device.avrindex} is not used.`);
-        callback( new Error( getI18nString("error.devnotused")), false );
-      }
-    })
-
-    /* ================================================================ */
-    /* = Mute action events                                           = */
-    /* ================================================================ */
-    .on("action.mute", (callback: Function, args: ActionArgsInfo ): void => {
-      if ( avrDevArray[ args.device.avrindex ].used === true ) {
-        if ( avrDevArray[ args.device.avrindex ].available == true ) {
-          avrDevArray[ args.device.avrindex ].dev.muteOn();
-          callback( null, true );
-        } else {
-          prtMsg(`Error: ${args.device.avrname} is not available.`);
-          callback( new Error( getI18nString("error.devnotavail")), false );
-        }
-      } else {
-        prtMsg(`Error: Slot ${args.device.avrindex} is not used.`);
-        callback( new Error( getI18nString("error.devnotused")), false );
-      }
-    })
-
-    .on("action.unmute", (callback: Function, args: ActionArgsInfo ): void => {
-      if ( avrDevArray[ args.device.avrindex ].used === true ) {
-        if ( avrDevArray[ args.device.avrindex ].available == true ) {
-          avrDevArray[ args.device.avrindex ].dev.muteOff();
-          callback( null, true );
-        } else {
-          prtMsg(`Error: ${args.device.avrname} is not available.`);
-          callback( new Error( getI18nString("error.devnotavail")), false );
-        }
-      } else {
-        prtMsg(`Error: Slot ${args.device.avrindex} is not used.`);
-        callback( new Error( getI18nString("error.devnotused")), false );
-      }
-    })
-
-    /* ================================================================ */
-    /* = Volume action events                                         = */
-    /* ================================================================ */
+    /* ============================================================== */
+    /* = volume events                                              = */
+    /* ============================================================== */
     .on("action.volumeup", (callback: Function, args: ActionArgsInfo ): void => {
       if ( avrDevArray[ args.device.avrindex ].used === true ) {
         if ( avrDevArray[ args.device.avrindex ].available == true ) {
@@ -1765,63 +1895,6 @@ let setUpFlowActionsAndTriggers = () : void => {
       } else {
         prtMsg(`Error: Slot ${args.device.avrindex} is not used.`);
         callback( new Error( getI18nString("error.devnotused")), false );
-      }
-    })
-
-    /* ================================================================ */
-    /* = Inputsource action events                                    = */
-    /* ================================================================ */
-    .on("action.selectinput", (callback: Function, args: ActionArgsInfo ): void => {
-      if ( avrDevArray[ args.device.avrindex ].used === true ) {
-        if ( avrDevArray[ args.device.avrindex ].available == true ) {
-          avrDevArray[ args.device.avrindex ].dev.selectInputSource(args.input.command);
-          callback(null, true);
-        } else {
-          prtMsg(`Error: ${args.device.avrname} is not available.`);
-          callback( new Error( getI18nString("error.devnotavail")), false );
-        }
-      } else {
-        prtMsg(`Error: ${args.device.avrname} has not loaded the configuration.`);
-        callback( new Error( getI18nString("error.devnotconf")), false );
-      }
-    })
-
-    /* ================================================================ */
-    /* = surround action events                                       = */
-    /* ================================================================ */
-    .on("action.surround", (callback: Function, args: ActionArgsInfo ): void  => {
-
-      if ( avrDevArray[ args.device.avrindex ].used === true ) {
-        if ( avrDevArray[ args.device.avrindex ].available == true ) {
-          avrDevArray[ args.device.avrindex ].dev.setSurrroundCommand(args.input.command);
-          callback(null, true);
-        } else {
-          prtMsg(`Error: ${args.device.avrname} is not available.`);
-          callback( new Error( getI18nString("error.devnotavail")), false );
-        }
-      } else {
-        prtMsg(`Error: ${args.device.avrname} has not loaded the configuration.`);
-        callback( new Error( getI18nString("error.devnotconf")), false );
-      }
-    })
-
-    /* ================================================================ */
-    /* = eco action events                                            = */
-    /* ================================================================ */
-    .on("action.eco", (callback: Function, args: ActionArgsInfo ): void  => {
-      prtDbg("Surroung action");
-      prtDbg( JSON.stringify( args ));
-      if ( avrDevArray[ args.device.avrindex ].used === true ) {
-        if ( avrDevArray[ args.device.avrindex ].available == true ) {
-          avrDevArray[ args.device.avrindex ].dev.sendEcoCommand(args.input.command);
-          callback(null, true);
-        } else {
-          prtMsg(`Error: ${args.device.avrname} is not available.`);
-          callback( new Error( getI18nString("error.devnotavail")), false );
-        }
-      } else {
-        prtMsg(`Error: ${args.device.avrname} has not loaded the configuration.`);
-        callback( new Error( getI18nString("error.devnotconf")), false );
       }
     });
 };

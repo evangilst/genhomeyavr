@@ -486,6 +486,40 @@
         ]
       },
       {
+        "id": "t_mzpower_on",
+        "title": {
+          "en": "Main zone power switched on.",
+          "nl": "AVR main zone aangezet."
+        },
+        "args": [
+          {
+            "name": "avrname",
+            "type": "autocomplete",
+            "placeholder": {
+              "en": "which avr",
+              "nl": "welk avr"
+            }
+          }
+        ]
+      },
+      {
+        "id": "t_mzpower_off",
+        "title": {
+          "en": "Main zone power switched off.",
+          "nl": "AVR main zone uitgezet."
+        },
+        "args": [
+          {
+            "name": "avrname",
+            "type": "autocomplete",
+            "placeholder": {
+              "en": "which avr",
+              "nl": "welk avr"
+            }
+          }
+        ]
+      },
+      {
         "id": "t_mute_on",
         "title": {
           "en": "Mute switched on.",
@@ -1433,6 +1467,31 @@
             "placeholder": {
               "en": "which avr",
               "nl": "welk avr"
+            }
+          }
+        ]
+      },
+      {
+        "id": "t_surround",
+        "title": {
+          "en": "Surround mode selected.",
+          "nl": "Surround mode geselecteerd."
+        },
+        "args": [
+          {
+            "name": "avrname",
+            "type": "device",
+            "placeholder": {
+              "en": "Select amplifier",
+              "nl": "Selecteer versterker"
+            }
+          },
+          {
+            "name": "input",
+            "type": "autocomplete",
+            "placeholder": {
+              "en": "Target mode",
+              "nl": "Gewenste mode"
             }
           }
         ]
