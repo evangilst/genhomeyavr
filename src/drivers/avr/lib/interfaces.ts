@@ -15,8 +15,14 @@ export interface KnownAvrInfo {
 };
 
 export interface SelectionInfo {
-  i18n:     string,
-  command:  string
+  command:     string,
+  i18n:        string
+};
+
+export interface SelectionArgs {
+  command:     string,
+  name:        string,
+  i18n:        string
 };
 
 export interface PairData {
@@ -41,23 +47,36 @@ export interface AvrDeviceData {
 };
 
 export interface HomeyDeviceData {
+  id:         string,
+  avrip:      string,
+  avrport:    number,
+  avrname:    string,
+  avrtype:    string,
+  avrindex:   number
+};
+
+export interface HomeyDevice {
   name:        string,
-  data: {
-    id:         string,
-    avrip:      string,
-    avrport:    number,
-    avrname:    string,
-    avrtype:    string,
-    avrindex:   number
+  data:        HomeyDeviceData
+}
+
+export interface TriggerArgs {
+  device:     HomeyDeviceData,
+  input: {
+    command:  string,
+    name:     string,
+    i18n:     string
   }
 };
 
+export interface TriggerData {
+  command:     string,
+  name:        string,
+  i18n:        string
+}
+
 export interface ArgsData {
   avrname: KnownAvrInfo
-};
-
-export interface TriggerData {
-  name:      string
 };
 
 export interface ActionArgsInfo {

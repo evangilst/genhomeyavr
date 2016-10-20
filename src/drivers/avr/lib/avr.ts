@@ -9,12 +9,10 @@
 /* = file.                                                          = */
 /* ================================================================== */
 
-import * as path      from "path";
-import * as fs        from "fs";
-import * as net       from "net";
-import * as events    from "events";
-
-
+import * as path          from "path";
+import * as fs            from "fs";
+import * as net           from "net";
+import * as events        from "events";
 import { SelectionInfo }  from "./interfaces" ;
 
 /* ==================================================================== */
@@ -45,42 +43,42 @@ const MAX_VOLUME = 80 ;
 
 export class AVR {
 
-  avr_port:                   number; // Network port ti use.
+  avr_port:                   number; // Network port to use.
   avr_host:                   string; // IP address or hostname to use
   avr_name:                   string; // Given naam to the device within Homey
   avr_type:                   string; // Type of Marantz AVR
 
-  powerStatus:                string;
-  mainZonePowerStatus:        string;
-  muteStatus:                 string;
-  inputSourceSelection:       string;
-  volumeStatus:               string;
-  surroundMode:               string;
-  ecoStatus:                  string;
+  powerStatus:                string;// Internal power status of AVR.
+  mainZonePowerStatus:        string;// Internal main one power status of AVR
+  muteStatus:                 string;// Internal mute status
+  inputSourceSelection:       string;// Internal input source selection status
+  volumeStatus:               string;// Internal volume
+  surroundMode:               string;// Internal surrounf mode status
+  ecoStatus:                  string;// Inetrnal eco mode
 
-  avr_avrnum:                 number; // Internal index
+  avr_avrnum:                 number; // Internal index into avrDevArray (driver.js).
   insertIndex:                number; // Insert position index of the send buffer
   deleteIndex:                number; // Delete position index of the send buffer.
 
   eventch:                    events.EventEmitter;// Internal event channel
   comChannel:                 events.EventEmitter;// Event channel from homey driver.
 
-  hasConfigLoaded:            boolean;
-  hasToStop:                  boolean;
-  hasNetworkConnection:       boolean;
-  isBufferLoopRunning:        boolean;
+  hasConfigLoaded:            boolean;// 'Type'.json file loaded and parsed.
+  hasToStop:                  boolean;// Disconnect request from Homey
+  hasNetworkConnection:       boolean;// Is there a network connection with the AVR
+  isBufferLoopRunning:        boolean;// is the send buffer currently checked?
   consoleOut:                 boolean;// Debug messages (true) or not (false).
   filter:                     boolean;// use all possible commands to the AVR
-                                      // Test only !
+                                      // Test only !!!!
 
-  selAr:                      SelectionInfo[];
-  surroundAr:                 SelectionInfo[];
-  ecoAr:                      SelectionInfo[];
+  selAr:                      SelectionInfo[];// Array with supported input source selection
+  surroundAr:                 SelectionInfo[];// Array with suppored surround mode
+  ecoAr:                      SelectionInfo[];// Array with support eco modes
   sendBuffer:                 string[];
 
   avrSocket:                  net.Socket;// Network socket to the AVR.
 
-  conf:                       any;  // Will container the parsed JSON configuration.
+  conf:                       any;  // Will contain the parsed JSON configuration.
 
   constructor() {
     this.avr_port             = 0  ;
@@ -118,7 +116,7 @@ export class AVR {
     this.comChannel           = null;
 
     /* ================================================================= */
-    /* Initialize the senf buffer                                        */
+    /* Initialize the send buffer                                        */
     /* ================================================================= */
     for ( let I = 0 ; I < MAX_INDEX ; I++ ) {
       this.sendBuffer[I] = "" ;
@@ -638,12 +636,20 @@ export class AVR {
               newStatus !== oldStatus ) {
 
           for ( let I = 0 ; I < this.conf.inputsource.length; I++ ) {
-            if ( xData === this.conf.inputsource[I].command ) {
-
-              this.comChannel.emit( "isource_status_chg", this.avr_avrnum,
-                  this.avr_name, this.conf.inputsource[I].i18n );
+            if ( newStatus === this.conf.inputsource[I].command ) {
+              newi18n = this.conf.inputsource[I].i18n;
             }
           }
+
+          for ( let I = 0 ; I < this.conf.inputsource.length; I++ ) {
+            if ( oldStatus === this.conf.inputsource[I].command ) {
+              oldi18n = this.conf.inputsource[I].i18n;
+            }
+          }
+
+          this.comChannel.emit( "isource_status_chg", this.avr_avrnum,
+              this.avr_name, newi18n, oldi18n );
+
         }
         break;
       case "MU":
@@ -690,13 +696,20 @@ export class AVR {
         if ( this.hasNetworkConnection === true  &&
               newStatus !== oldStatus ) {
 
-          for ( let I = 0 ; I < this.conf.surround.length; I++ ) {
-            if ( xData === this.conf.surround[I].command ) {
+                for ( let I = 0 ; I < this.conf.surround.length; I++ ) {
+                  if ( newStatus === this.conf.surround[I].command ) {
+                    newi18n = this.conf.surround[I].i18n;
+                  }
+                }
 
-              this.comChannel.emit( "surround_status_chg", this.avr_avrnum,
-                  this.avr_name, this.conf.surround[I].i18n );
-            }
-          }
+                for ( let I = 0 ; I < this.conf.surround.length; I++ ) {
+                  if ( oldStatus === this.conf.surround[I].command ) {
+                    oldi18n = this.conf.surround[I].i18n;
+                  }
+                }
+
+                this.comChannel.emit( "surround_status_chg", this.avr_avrnum,
+                    this.avr_name, newi18n, oldi18n );
         }
         break;
       case "MV":

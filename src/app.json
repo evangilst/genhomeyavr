@@ -35,6 +35,14 @@
       },
       "class": "other",
       "capabilities": ["onoff"],
+      "mobile": {
+        "components": [
+          {
+            "id":   "icon",
+            "capabilities": ["onoff"]
+          }
+        ]
+      },
       "pair": [
         {
           "id": "configure_avr"
@@ -556,16 +564,24 @@
       {
         "id": "t_eco_on",
         "title": {
-          "en": "Eco switched on.",
-          "nl": "Eco aangezet."
+          "en": "Eco mode selected.",
+          "nl": "Eco mode geselecteerd."
         },
         "args": [
           {
-            "name": "avrname",
+            "name": "device",
+            "type": "device",
+            "placeholder": {
+              "en": "Select amplifier",
+              "nl": "Selecteer versterker"
+            }
+          },
+          {
+            "name": "input",
             "type": "autocomplete",
             "placeholder": {
-              "en": "which avr",
-              "nl": "welk avr"
+              "en": "eco mode",
+              "nl": "eco mode"
             }
           }
         ]
@@ -573,900 +589,74 @@
       {
         "id": "t_eco_off",
         "title": {
-          "en": "Eco switched off.",
-          "nl": "Eco uitgezet."
+          "en": "Eco mode deselected.",
+          "nl": "Eco mode veranderd."
         },
         "args": [
           {
-            "name": "avrname",
+            "name": "device",
+            "type": "device",
+            "placeholder": {
+              "en": "Select amplifier",
+              "nl": "Selecteer versterker"
+            }
+          },
+          {
+            "name": "input",
             "type": "autocomplete",
             "placeholder": {
-              "en": "which avr",
-              "nl": "welk avr"
+              "en": "eco mode",
+              "nl": "eco mode"
             }
           }
         ]
       },
       {
-        "id": "t_eco_auto",
+        "id": "t_inputsource_sel",
         "title": {
-          "en": "Eco switched to auto.",
-          "nl": "Eco mode naar auto."
+          "en": "Inputsource selected.",
+          "nl": "Inputsource geselecteerd."
         },
         "args": [
           {
-            "name": "avrname",
+            "name": "device",
+            "type": "device",
+            "placeholder": {
+              "en": "Select amplifier",
+              "nl": "Selecteer versterker"
+            }
+          },
+          {
+            "name": "input",
             "type": "autocomplete",
             "placeholder": {
-              "en": "which avr",
-              "nl": "welk avr"
+              "en": "input source",
+              "nl": "input source"
             }
           }
         ]
       },
       {
-        "id": "t_in_aux1",
+        "id": "t_inputsource_des",
         "title": {
-          "en": "Source aux1 selected.",
-          "nl": "Ingang aux1 geselecteerd."
+          "en": "Inputsource deselected.",
+          "nl": "Inputsource veranderd."
         },
         "args": [
           {
-            "name": "avrname",
-            "type": "autocomplete",
+            "name": "device",
+            "type": "device",
             "placeholder": {
-              "en": "which avr",
-              "nl": "welk avr"
+              "en": "Select amplifier",
+              "nl": "Selecteer versterker"
             }
-          }
-        ]
-      },
-      {
-        "id": "t_in_aux2",
-        "title": {
-          "en": "Source aux2 selected.",
-          "nl": "Ingang aux2 geselecteerd."
-        },
-        "args": [
+          },
           {
-            "name": "avrname",
+            "name": "input",
             "type": "autocomplete",
             "placeholder": {
-              "en": "which avr",
-              "nl": "welk avr"
-            }
-          }
-        ]
-      },
-      {
-        "id": "t_in_aux3",
-        "title": {
-          "en": "Source aux3 selected.",
-          "nl": "Ingang aux3 geselecteerd."
-        },
-        "args": [
-          {
-            "name": "avrname",
-            "type": "autocomplete",
-            "placeholder": {
-              "en": "which avr",
-              "nl": "welk avr"
-            }
-          }
-        ]
-      },
-      {
-        "id": "t_in_aux4",
-        "title": {
-          "en": "Source aux4 selected.",
-          "nl": "Ingang aux4 geselecteerd."
-        },
-        "args": [
-          {
-            "name": "avrname",
-            "type": "autocomplete",
-            "placeholder": {
-              "en": "which avr",
-              "nl": "welk avr"
-            }
-          }
-        ]
-      },
-      {
-        "id": "t_in_aux5",
-        "title": {
-          "en": "Source aux5 selected.",
-          "nl": "Ingang aux5 geselecteerd."
-        },
-        "args": [
-          {
-            "name": "avrname",
-            "type": "autocomplete",
-            "placeholder": {
-              "en": "which avr",
-              "nl": "welk avr"
-            }
-          }
-        ]
-      },
-      {
-        "id": "t_in_aux6",
-        "title": {
-          "en": "Source aux6 selected.",
-          "nl": "Ingang aux6 geselecteerd."
-        },
-        "args": [
-          {
-            "name": "avrname",
-            "type": "autocomplete",
-            "placeholder": {
-              "en": "which avr",
-              "nl": "welk avr"
-            }
-          }
-        ]
-      },
-      {
-        "id": "t_in_aux7",
-        "title": {
-          "en": "Source aux7 selected.",
-          "nl": "Ingang aux7 geselecteerd."
-        },
-        "args": [
-          {
-            "name": "avrname",
-            "type": "autocomplete",
-            "placeholder": {
-              "en": "which avr",
-              "nl": "welk avr"
-            }
-          }
-        ]
-      },
-      {
-        "id": "t_in_bd",
-        "title": {
-          "en": "Source Bluray selected.",
-          "nl": "Ingang Bluray geselecteerd."
-        },
-        "args": [
-          {
-            "name": "avrname",
-            "type": "autocomplete",
-            "placeholder": {
-              "en": "which avr",
-              "nl": "welk avr"
-            }
-          }
-        ]
-      },
-      {
-        "id": "t_in_bt",
-        "title": {
-          "en": "Source bluetooth selected.",
-          "nl": "Ingang bluetooth geselecteerd."
-        },
-        "args": [
-          {
-            "name": "avrname",
-            "type": "autocomplete",
-            "placeholder": {
-              "en": "which avr",
-              "nl": "welk avr"
-            }
-          }
-        ]
-      },
-      {
-        "id": "t_in_cd",
-        "title": {
-          "en": "Source CD selected.",
-          "nl": "Ingang CD geselecteerd."
-        },
-        "args": [
-          {
-            "name": "avrname",
-            "type": "autocomplete",
-            "placeholder": {
-              "en": "which avr",
-              "nl": "welk avr"
-            }
-          }
-        ]
-      },
-      {
-        "id": "t_in_cdr",
-        "title": {
-          "en": "Source CDR selected.",
-          "nl": "Ingang CDR geselecteerd."
-        },
-        "args": [
-          {
-            "name": "avrname",
-            "type": "autocomplete",
-            "placeholder": {
-              "en": "which avr",
-              "nl": "welk avr"
-            }
-          }
-        ]
-      },
-      {
-        "id": "t_in_dvd",
-        "title": {
-          "en": "Source DVD selected.",
-          "nl": "Ingang DVD geselecteerd."
-        },
-        "args": [
-          {
-            "name": "avrname",
-            "type": "autocomplete",
-            "placeholder": {
-              "en": "which avr",
-              "nl": "welk avr"
-            }
-          }
-        ]
-      },
-      {
-        "id": "t_in_favorites",
-        "title": {
-          "en": "Source favorites selected.",
-          "nl": "Ingang favorites geselecteerd."
-        },
-        "args": [
-          {
-            "name": "avrname",
-            "type": "autocomplete",
-            "placeholder": {
-              "en": "which avr",
-              "nl": "welk avr"
-            }
-          }
-        ]
-      },
-      {
-        "id": "t_in_flickr",
-        "title": {
-          "en": "Source flickr selected.",
-          "nl": "Ingang flickr geselecteerd."
-        },
-        "args": [
-          {
-            "name": "avrname",
-            "type": "autocomplete",
-            "placeholder": {
-              "en": "which avr",
-              "nl": "welk avr"
-            }
-          }
-        ]
-      },
-      {
-        "id": "t_in_game",
-        "title": {
-          "en": "Source game selected.",
-          "nl": "Ingang game geselecteerd."
-        },
-        "args": [
-          {
-            "name": "avrname",
-            "type": "autocomplete",
-            "placeholder": {
-              "en": "which avr",
-              "nl": "welk avr"
-            }
-          }
-        ]
-      },
-      {
-        "id": "t_in_iradio",
-        "title": {
-          "en": "Source internet radio selected.",
-          "nl": "Ingang internet radio geselecteerd."
-        },
-        "args": [
-          {
-            "name": "avrname",
-            "type": "autocomplete",
-            "placeholder": {
-              "en": "which avr",
-              "nl": "welk avr"
-            }
-          }
-        ]
-      },
-      {
-        "id": "t_in_mplay",
-        "title": {
-          "en": "Source mplay selected.",
-          "nl": "Ingang mplay geselecteerd."
-        },
-        "args": [
-          {
-            "name": "avrname",
-            "type": "autocomplete",
-            "placeholder": {
-              "en": "which avr",
-              "nl": "welk avr"
-            }
-          }
-        ]
-      },
-      {
-        "id": "t_in_mxport",
-        "title": {
-          "en": "Source mxport selected.",
-          "nl": "Ingang mxport geselecteerd."
-        },
-        "args": [
-          {
-            "name": "avrname",
-            "type": "autocomplete",
-            "placeholder": {
-              "en": "which avr",
-              "nl": "welk avr"
-            }
-          }
-        ]
-      },
-      {
-        "id": "t_in_napster",
-        "title": {
-          "en": "Source napster selected.",
-          "nl": "Ingang mapster geselecteerd."
-        },
-        "args": [
-          {
-            "name": "avrname",
-            "type": "autocomplete",
-            "placeholder": {
-              "en": "which avr",
-              "nl": "welk avr"
-            }
-          }
-        ]
-      },
-      {
-        "id": "t_in_net",
-        "title": {
-          "en": "Source NET selected.",
-          "nl": "Ingang NET geselecteerd."
-        },
-        "args": [
-          {
-            "name": "avrname",
-            "type": "autocomplete",
-            "placeholder": {
-              "en": "which avr",
-              "nl": "welk avr"
-            }
-          }
-        ]
-      },
-      {
-        "id": "t_in_net_usb",
-        "title": {
-          "en": "Source NET/USB selected.",
-          "nl": "Ingang NET/USB geselecteerd."
-        },
-        "args": [
-          {
-            "name": "avrname",
-            "type": "autocomplete",
-            "placeholder": {
-              "en": "which avr",
-              "nl": "welk avr"
-            }
-          }
-        ]
-      },
-      {
-        "id": "t_in_phono",
-        "title": {
-          "en": "Source Phono selected.",
-          "nl": "Ingang Phone geselecteerd."
-        },
-        "args": [
-          {
-            "name": "avrname",
-            "type": "autocomplete",
-            "placeholder": {
-              "en": "which avr",
-              "nl": "welk avr"
-            }
-          }
-        ]
-      },
-      {
-        "id": "t_in_sat",
-        "title": {
-          "en": "Source SAT selected.",
-          "nl": "Ingang SAt geselecteerd."
-        },
-        "args": [
-          {
-            "name": "avrname",
-            "type": "autocomplete",
-            "placeholder": {
-              "en": "which avr",
-              "nl": "welk avr"
-            }
-          }
-        ]
-      },
-      {
-        "id": "t_in_sat_cbl",
-        "title": {
-          "en": "Source SAT/CBL selected.",
-          "nl": "Ingang SAT/CBL geselecteerd."
-        },
-        "args": [
-          {
-            "name": "avrname",
-            "type": "autocomplete",
-            "placeholder": {
-              "en": "which avr",
-              "nl": "welk avr"
-            }
-          }
-        ]
-      },
-      {
-        "id": "t_in_server",
-        "title": {
-          "en": "Source SERVER selected.",
-          "nl": "Ingang SERVER geselecteerd."
-        },
-        "args": [
-          {
-            "name": "avrname",
-            "type": "autocomplete",
-            "placeholder": {
-              "en": "which avr",
-              "nl": "welk avr"
-            }
-          }
-        ]
-      },
-      {
-        "id": "t_in_spotify",
-        "title": {
-          "en": "Source spotify selected.",
-          "nl": "Ingang spotify geselecteerd."
-        },
-        "args": [
-          {
-            "name": "avrname",
-            "type": "autocomplete",
-            "placeholder": {
-              "en": "which avr",
-              "nl": "welk avr"
-            }
-          }
-        ]
-      },
-      {
-        "id": "t_in_tuner",
-        "title": {
-          "en": "Source tuner selected.",
-          "nl": "Ingang tuner geselecteerd."
-        },
-        "args": [
-          {
-            "name": "avrname",
-            "type": "autocomplete",
-            "placeholder": {
-              "en": "which avr",
-              "nl": "welk avr"
-            }
-          }
-        ]
-      },
-      {
-        "id": "t_in_tv",
-        "title": {
-          "en": "Source tv selected.",
-          "nl": "Ingang tv geselecteerd."
-        },
-        "args": [
-          {
-            "name": "avrname",
-            "type": "autocomplete",
-            "placeholder": {
-              "en": "which avr",
-              "nl": "welk avr"
-            }
-          }
-        ]
-      },
-      {
-        "id": "t_in_usb_ipod",
-        "title": {
-          "en": "Source USB/IPOD selected.",
-          "nl": "Ingang USB/IPOD geselecteerd."
-        },
-        "args": [
-          {
-            "name": "avrname",
-            "type": "autocomplete",
-            "placeholder": {
-              "en": "which avr",
-              "nl": "welk avr"
-            }
-          }
-        ]
-      },
-      {
-        "id": "t_in_v_aux",
-        "title": {
-          "en": "Source v_aux selected.",
-          "nl": "Ingang v_aux geselecteerd."
-        },
-        "args": [
-          {
-            "name": "avrname",
-            "type": "autocomplete",
-            "placeholder": {
-              "en": "which avr",
-              "nl": "welk avr"
-            }
-          }
-        ]
-      },
-      {
-        "id": "t_in_usb",
-        "title": {
-          "en": "Source USB selected.",
-          "nl": "Ingang USB geselecteerd."
-        },
-        "args": [
-          {
-            "name": "avrname",
-            "type": "autocomplete",
-            "placeholder": {
-              "en": "which avr",
-              "nl": "welk avr"
-            }
-          }
-        ]
-      },
-      {
-        "id": "t_in_ipd",
-        "title": {
-          "en": "Source IPD selected.",
-          "nl": "Ingang IPD geselecteerd."
-        },
-        "args": [
-          {
-            "name": "avrname",
-            "type": "autocomplete",
-            "placeholder": {
-              "en": "which avr",
-              "nl": "welk avr"
-            }
-          }
-        ]
-      },
-      {
-        "id": "t_in_irp",
-        "title": {
-          "en": "Source IRP selected.",
-          "nl": "Ingang IRP geselecteerd."
-        },
-        "args": [
-          {
-            "name": "avrname",
-            "type": "autocomplete",
-            "placeholder": {
-              "en": "which avr",
-              "nl": "welk avr"
-            }
-          }
-        ]
-      },
-      {
-        "id": "t_in_fvp",
-        "title": {
-          "en": "Source FVP selected.",
-          "nl": "Ingang FVP geselecteerd."
-        },
-        "args": [
-          {
-            "name": "avrname",
-            "type": "autocomplete",
-            "placeholder": {
-              "en": "which avr",
-              "nl": "welk avr"
-            }
-          }
-        ]
-      },
-      {
-        "id": "t_in_otp",
-        "title": {
-          "en": "Source OTP selected.",
-          "nl": "Ingang OTP geselecteerd."
-        },
-        "args": [
-          {
-            "name": "avrname",
-            "type": "autocomplete",
-            "placeholder": {
-              "en": "which avr",
-              "nl": "welk avr"
-            }
-          }
-        ]
-      },
-      {
-        "id": "t_sur_auto",
-        "title": {
-          "en": "Surround mode auto selected.",
-          "nl": "Surround mode auto geselecteerd."
-        },
-        "args": [
-          {
-            "name": "avrname",
-            "type": "autocomplete",
-            "placeholder": {
-              "en": "which avr",
-              "nl": "welk avr"
-            }
-          }
-        ]
-      },
-      {
-        "id": "t_sur_direct",
-        "title": {
-          "en": "Surround mode direct selected.",
-          "nl": "Surround mode direct geselecteerd."
-        },
-        "args": [
-          {
-            "name": "avrname",
-            "type": "autocomplete",
-            "placeholder": {
-              "en": "which avr",
-              "nl": "welk avr"
-            }
-          }
-        ]
-      },
-      {
-        "id": "t_sur_dolby",
-        "title": {
-          "en": "Surround mode dolby selected.",
-          "nl": "Surround mode dolby geselecteerd."
-        },
-        "args": [
-          {
-            "name": "avrname",
-            "type": "autocomplete",
-            "placeholder": {
-              "en": "which avr",
-              "nl": "welk avr"
-            }
-          }
-        ]
-      },
-      {
-        "id": "t_sur_dts",
-        "title": {
-          "en": "Surround mode dts selected.",
-          "nl": "Surround mode dts geselecteerd."
-        },
-        "args": [
-          {
-            "name": "avrname",
-            "type": "autocomplete",
-            "placeholder": {
-              "en": "which avr",
-              "nl": "welk avr"
-            }
-          }
-        ]
-      },
-      {
-        "id": "t_sur_game",
-        "title": {
-          "en": "Surround mode game selected.",
-          "nl": "Surround mode game geselecteerd."
-        },
-        "args": [
-          {
-            "name": "avrname",
-            "type": "autocomplete",
-            "placeholder": {
-              "en": "which avr",
-              "nl": "welk avr"
-            }
-          }
-        ]
-      },
-      {
-        "id": "t_sur_left",
-        "title": {
-          "en": "Surround mode left selected.",
-          "nl": "Surround mode left geselecteerd."
-        },
-        "args": [
-          {
-            "name": "avrname",
-            "type": "autocomplete",
-            "placeholder": {
-              "en": "which avr",
-              "nl": "welk avr"
-            }
-          }
-        ]
-      },
-      {
-        "id": "t_sur_matrix",
-        "title": {
-          "en": "Surround mode matrix selected.",
-          "nl": "Surround mode matrix geselecteerd."
-        },
-        "args": [
-          {
-            "name": "avrname",
-            "type": "autocomplete",
-            "placeholder": {
-              "en": "which avr",
-              "nl": "welk avr"
-            }
-          }
-        ]
-      },
-      {
-        "id": "t_sur_mchstereo",
-        "title": {
-          "en": "Surround mode multichannel stereo selected.",
-          "nl": "Surround mode multichannel stereo geselecteerd."
-        },
-        "args": [
-          {
-            "name": "avrname",
-            "type": "autocomplete",
-            "placeholder": {
-              "en": "which avr",
-              "nl": "welk avr"
-            }
-          }
-        ]
-      },
-      {
-        "id": "t_sur_movie",
-        "title": {
-          "en": "Surround mode movie selected.",
-          "nl": "Surround mode movie geselecteerd."
-        },
-        "args": [
-          {
-            "name": "avrname",
-            "type": "autocomplete",
-            "placeholder": {
-              "en": "which avr",
-              "nl": "welk avr"
-            }
-          }
-        ]
-      },
-      {
-        "id": "t_sur_music",
-        "title": {
-          "en": "Surround mode music selected.",
-          "nl": "Surround mode music geselecteerd."
-        },
-        "args": [
-          {
-            "name": "avrname",
-            "type": "autocomplete",
-            "placeholder": {
-              "en": "which avr",
-              "nl": "welk avr"
-            }
-          }
-        ]
-      },
-      {
-        "id": "t_sur_neural",
-        "title": {
-          "en": "Surround mode neural selected.",
-          "nl": "Surround mode neural geselecteerd."
-        },
-        "args": [
-          {
-            "name": "avrname",
-            "type": "autocomplete",
-            "placeholder": {
-              "en": "which avr",
-              "nl": "welk avr"
-            }
-          }
-        ]
-      },
-      {
-        "id": "t_sur_pure",
-        "title": {
-          "en": "Surround mode pure direct selected.",
-          "nl": "Surround mode pure direct geselecteerd."
-        },
-        "args": [
-          {
-            "name": "avrname",
-            "type": "autocomplete",
-            "placeholder": {
-              "en": "which avr",
-              "nl": "welk avr"
-            }
-          }
-        ]
-      },
-      {
-        "id": "t_sur_right",
-        "title": {
-          "en": "Surround mode right selected.",
-          "nl": "Surround mode right geselecteerd."
-        },
-        "args": [
-          {
-            "name": "avrname",
-            "type": "autocomplete",
-            "placeholder": {
-              "en": "which avr",
-              "nl": "welk avr"
-            }
-          }
-        ]
-      },
-      {
-        "id": "t_sur_standard",
-        "title": {
-          "en": "Surround mode standard selected.",
-          "nl": "Surround mode standard geselecteerd."
-        },
-        "args": [
-          {
-            "name": "avrname",
-            "type": "autocomplete",
-            "placeholder": {
-              "en": "which avr",
-              "nl": "welk avr"
-            }
-          }
-        ]
-      },
-      {
-        "id": "t_sur_stereo",
-        "title": {
-          "en": "Surround mode stereo selected.",
-          "nl": "Surround mode stereo geselecteerd."
-        },
-        "args": [
-          {
-            "name": "avrname",
-            "type": "autocomplete",
-            "placeholder": {
-              "en": "which avr",
-              "nl": "welk avr"
-            }
-          }
-        ]
-      },
-      {
-        "id": "t_sur_virtual",
-        "title": {
-          "en": "Surround mode virtual selected.",
-          "nl": "Surround mode virtual geselecteerd."
-        },
-        "args": [
-          {
-            "name": "avrname",
-            "type": "autocomplete",
-            "placeholder": {
-              "en": "which avr",
-              "nl": "welk avr"
+              "en": "input source",
+              "nl": "input source"
             }
           }
         ]
@@ -1479,7 +669,7 @@
         },
         "args": [
           {
-            "name": "avrname",
+            "name": "device",
             "type": "device",
             "placeholder": {
               "en": "Select amplifier",

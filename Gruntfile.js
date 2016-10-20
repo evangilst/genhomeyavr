@@ -155,12 +155,12 @@ module.exports = function( grunt ) {
         jsdoc: {
             dist: {
                 src: [
-                    "<%= defs.srcDir %>/app.ts",
-                    "<%= defs.srcDir %>/drivers/avr/driver.ts",
-                    "<%= defs.srcDir %>/drivers/avr/lib/avr.ts",
-                    "<%= defs.srcDir %>/test/avrsim.ts",
-                    "<%= defs.srcDir %>/test/avrtest.ts",
-                    "<%= defs.srcDir %>/gen/gen_jsons.ts"
+                    "<%= defs.destAppDir %>/app.js",
+                    "<%= defs.destAppDir %>/drivers/avr/driver.js",
+                    "<%= defs.destAppDir %>/drivers/avr/lib/avr.js",
+                    "<%= defs.destAppDir %>/test/avrsim.js",
+                    "<%= defs.destAppDir %>/test/avrtest.js",
+                    "<%= defs.destAppDir %>/gen/gen_jsons.js"
                 ],
                 options: {
                     destination: "<%= defs.destDocDir %>"
@@ -170,8 +170,11 @@ module.exports = function( grunt ) {
 
         jsonlint: {
             all: {
-                src: ["<%= defs.srcDir %>/drivers/avr/lib/conf/*.json",
-                      "<%= defs.srcDir %>/locales/*.json"],
+                src: [
+                  "<%= defs.srcDir %>/drivers/avr/lib/conf/*.json",
+                  "<%= defs.srcDir %>/locales/*.json",
+                  "<%= defs.srcDir %>/app.json"
+                ],
                 options: {
                     formatter: "prose"
                 }
@@ -180,25 +183,26 @@ module.exports = function( grunt ) {
     });
 
     var buildApplication = [
-        "clean:appl",
-        "copy:homey_files",
-        "ts:homey"
+      "jsonlint:all",
+      "clean:appl",
+      "copy:homey_files",
+      "ts:homey"
     ];
 
     var buildDocumentation = [
-        "clean:docs",
-        "jsdoc"
+      "clean:docs",
+      "jsdoc"
     ];
 
     var buildTestEnv = [
-        "clean:tst",
-        "copy:test_files",
-        "mkdir:testenv",
-        "ts:test"
+      "clean:tst",
+      "copy:test_files",
+      "mkdir:testenv",
+      "ts:test"
     ];
 
     var checkJson = [
-        "jsonlint:all"
+      "jsonlint:all"
     ];
 
     grunt.registerTask("buildapp", buildApplication);
@@ -210,6 +214,6 @@ module.exports = function( grunt ) {
         grunt.task.run(checkJson);
         grunt.task.run(buildApplication);
         grunt.task.run(buildTestEnv);
-        grunt.task.run(buildDocumentation);
+        //grunt.task.run(buildDocumentation);
     });
 };
