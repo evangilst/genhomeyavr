@@ -3,7 +3,7 @@
 /* ================================================================== */
 /* = Note:                                                          = */
 /* = This is a generated javascript file.                           = */
-/* = Don't edit the javascript file directly or change might be     = */
+/* = Don't edit the javascript file directly or changes might be    = */
 /* = lost with the next build.                                      = */
 /* = Edit the typescipt file instead and re-generate the javascript = */
 /* = file.                                                          = */
@@ -35,9 +35,9 @@ let knownDevs: Array<AvrDeviceData>    = [];     // Known used devices
  * @param      {string}  str     The message string
  */
 let prtDbg = (str: string): void => {
-    if ( myDebugMode === true ) {
-      Homey.log(`[D] ${str}`);
-    }
+  if ( myDebugMode === true ) {
+    Homey.log(`[D] ${str}`);
+  }
 };
 
 /**
@@ -86,7 +86,10 @@ let getI18nString = (str: string): string => {
  */
 let init = (devices: Array<AvrDeviceData>, callback: Function) => {
 
-  prtDbg( "Init called.");
+  if (myDebugMode === true ) {
+    prtDbg( "Init called.");
+    prtDbg( "Devices => " + JSON.stringify( devices ));
+  }
 
   if ( avrComChannel === null ) {
 
@@ -118,15 +121,6 @@ let init = (devices: Array<AvrDeviceData>, callback: Function) => {
     if ( devices.length !== 0 ) {
 
       devices.forEach( (device) => {
-
-        if ( myDebugMode === true ) {
-
-          prtDbg(`MarantzAvr: init: '${device.avrip}'.`);
-          prtDbg(`MarantzAvr: init: '${device.avrport}'.`);
-          prtDbg(`MarantzAvr: init: '${device.avrname}'.`);
-          prtDbg(`MarantzAvr: init: '${device.avrtype}'.`);
-          prtDbg(`MarantzAvr: init: '${device.avrindex}'.`);
-        }
 
         if ( device.avrindex >= 0 && device.avrindex < MAX_AVRS ) {
 
@@ -160,8 +154,8 @@ let init = (devices: Array<AvrDeviceData>, callback: Function) => {
       if ( myDebugMode === true ) {
         for ( let I = 0 ; I < avrDevArray.length; I++ ) {
           if ( avrDevArray[I].used === true ) {
-            let xStr: string = `${avrDevArray[I].dev.getName()}-` +
-            `${avrDevArray[ I ].dev.getHostname()}:${avrDevArray[ I ].dev.getPort()}.`
+            let xStr: string = `${avrDevArray[I].dev.getName()}/${avrDevArray[I].dev.getType()}-` +
+            `${avrDevArray[ I ].dev.getHostname()}:${avrDevArray[ I ].dev.getPort()}`
             prtDbg(`Entry ${I} has ${xStr}.`);
           } else {
               prtDbg(`Entry ${I} is not used.`);
@@ -199,10 +193,7 @@ let deleted = (device: AvrDeviceData, callback: Function): void  => {
 
   if ( myDebugMode === true ) {
     prtDbg("HomeyAvr: delete_device called");
-    prtDbg(`HomeyAvr: delete_device: ${device.avrip}.`);
-    prtDbg(`HomeyAvr: delete_device: ${device.avrport}.`);
-    prtDbg(`HomeyAvr: delete_device: ${device.avrname}.`);
-    prtDbg(`HomeyAvr: delete_device: ${device.avrindex}.`);
+    prtDbg( "Device => " + JSON.stringify( device ));
   }
 
   if ( avrDevArray[ device.avrindex ].used === false ) {
@@ -281,10 +272,7 @@ let added = (device: AvrDeviceData , callback: Function ) => {
 
   if ( myDebugMode === true ) {
       prtDbg("HomeyAvr: add_device called");
-      prtDbg(`HomeyAvr: add_device: ${device.avrip}.`);
-      prtDbg(`HomeyAvr: add_device: ${device.avrport}.`);
-      prtDbg(`HomeyAvr: add_device: ${device.avrname}.`);
-      prtDbg(`HomeyAvr: add_device: ${device.avrindex}.`);
+      prtDbg( "device => " + JSON.stringify( device ));
   }
 
   avrDevArray[ device.avrindex ] = {
@@ -352,11 +340,8 @@ let pair = (socket: net.Socket): void  => {
       if ( myDebugMode === true ) {
 
         prtDbg("HomeyAvr: pair => list_devices called.");
-        prtDbg(`HomeyAvr: pair => list_devices: '${newDevInfo.avrip}'.`);
-        prtDbg(`HomeyAvr: pair => list_devices: '${newDevInfo.avrport}'.`);
-        prtDbg(`HomeyAvr: pair => list_devices: '${newDevInfo.avrname}'.`);
-        prtDbg(`HomeyAvr: pair => list_devices: '${newDevInfo.avrtype}'.`);
-        prtDbg(`HomeyAvr: pair => list_devices: '${newDevInfo.avrindex}'.`);
+        prtDbg( "data => "       + JSON.stringify( data ));
+        prtDbg( "newDevInfo => " + JSON.stringify( newDevInfo ));
       }
 
       if ( newDevInfo.avrindex === -1 ) {
@@ -386,10 +371,7 @@ let pair = (socket: net.Socket): void  => {
 
       if ( myDebugMode === true ) {
         prtDbg("HomeyAvr: pair => get_devices called.");
-        prtDbg(`HomeyAvr: pair => get_devices: '${data.avrip}'.`);
-        prtDbg(`HomeyAvr: pair => get_devices: '${data.avrport}'.`);
-        prtDbg(`HomeyAvr: pair => get_devices: '${data.avrname}'.`);
-        prtDbg(`HomeyAvr: pair => get_devices: '${data.avrtype}'.`);
+        prtDbg( "data => " + JSON.stringify( data ));
       }
 
       let curSlot: number = -1 ;
@@ -429,6 +411,10 @@ let capabilities = {
 
   onoff: {
     get: (device_data: AvrDeviceData, callback: Function): void  => {
+      if ( myDebugMode === true ) {
+        prtDbg("Capabilities - get");
+        prtDbg( "device_data => " + JSON.stringify( device_data ));
+      }
 
       if ( avrDevArray[ device_data.avrindex ].used === true ) {
         if ( avrDevArray[ device_data.avrindex ].available === true ) {
@@ -441,7 +427,11 @@ let capabilities = {
       }
     },
     set: (device_data: AvrDeviceData, data: boolean , callback: Function ): void  => {
-
+      if ( myDebugMode === true ) {
+        prtDbg("Capabilities - set ");
+        prtDbg( "Device_data => " + JSON.stringify( device_data ));
+        prtDbg( "Data => " + JSON.stringify( data ));
+      }
       if ( avrDevArray[ device_data.avrindex ].used === true ) {
         if ( avrDevArray[ device_data.avrindex ].available === true ) {
           if ( data === true ) {
@@ -477,17 +467,11 @@ let settings = (device_data: AvrDeviceData,
                 callback: Function): void => {
 
   if ( myDebugMode === true ) {
-      prtDbg( "device_data" );
-      prtDbg( JSON.stringify( device_data) );
-
-      prtDbg( "newSet :");
-      prtDbg( JSON.stringify( newSet) );
-
-      prtDbg( "oldSet :" );
-      prtDbg( JSON.stringify( oldSet ) );
-
-      prtDbg( "changedKeyArr : ");
-      prtDbg( JSON.stringify( changedKeyArr));
+    prtDbg("Capabilities get : ");
+    prtDbg( "device_data => "  + JSON.stringify( device_data) );
+    prtDbg( "newSet => "       + JSON.stringify( newSet) );
+    prtDbg( "oldSet => "       + JSON.stringify( oldSet ) );
+    prtDbg( "changedKeyArr =>" + JSON.stringify( changedKeyArr));
   }
 
   let nIP:        string  = device_data.avrip;
@@ -551,7 +535,7 @@ let settings = (device_data: AvrDeviceData,
       used:       true
     }
 
-    prtDbg(`Check -> ${nPort}:${nIP}:${nType}.`);
+    prtDbg(`Check -> ${nIP}:${nPort}:${nType}.`);
 
     avrDevArray[ device_data.avrindex ].dev.init(nPort,
                                                  nIP,
@@ -752,6 +736,10 @@ let setUpFlowActionsAndTriggers = () : void => {
   /* = Main power events                                         = */
   /* ============================================================== */
     .on("action.poweron" , (callback: Function, args: ActionArgsInfo): void  =>  {
+      if ( myDebugMode === true ){
+        prtDbg( "action.poweron :");
+        prtDbg( "args => " + JSON.stringify( args ));
+      }
       if ( avrDevArray[ args.device.avrindex ].used === true ) {
         if ( avrDevArray[ args.device.avrindex ].available == true ) {
           avrDevArray[ args.device.avrindex ].dev.powerOn();
@@ -765,6 +753,10 @@ let setUpFlowActionsAndTriggers = () : void => {
     })
 
     .on("action.poweroff", (callback: Function, args: ActionArgsInfo ): void => {
+      if ( myDebugMode === true ){
+        prtDbg( "action.poweroff :");
+        prtDbg( "args => " + JSON.stringify( args ));
+      }
       if ( avrDevArray[ args.device.avrindex ].used === true ) {
         if ( avrDevArray[ args.device.avrindex ].available == true ) {
           avrDevArray[ args.device.avrindex ].dev.powerOff();
@@ -786,6 +778,11 @@ let setUpFlowActionsAndTriggers = () : void => {
     })
 
     .on("trigger.t_power_on", (callback: Function, args: ArgsData , data: TriggerData ): void => {
+      if ( myDebugMode === true ){
+        prtDbg( "trigger.t_power_on :");
+        prtDbg( "args => " + JSON.stringify( args ));
+        prtDbg( "data => " + JSON.stringify( data ));
+      }
       prtDbg("On Trigger t_power_on called");
       callback( null, true );
     })
@@ -799,6 +796,10 @@ let setUpFlowActionsAndTriggers = () : void => {
     /* = Main zone power events                                     = */
     /* ============================================================== */
     .on("action.main_zone_poweron" , (callback: Function, args: ActionArgsInfo ): void => {
+      if ( myDebugMode === true ) {
+        prtDbg( "Action.main_zone_poweron : ");
+        prtDbg( "args => " + JSON.stringify( args ));
+      }
       if ( avrDevArray[ args.device.avrindex ].used === true ) {
         if ( avrDevArray[ args.device.avrindex ].available == true ) {
           avrDevArray[ args.device.avrindex ].dev.mainZonePowerOn();
@@ -812,6 +813,10 @@ let setUpFlowActionsAndTriggers = () : void => {
     })
 
     .on("action.main_zone_poweroff", (callback: Function, args: ActionArgsInfo ): void => {
+      if ( myDebugMode === true ) {
+        prtDbg( "Action.main_zone_poweroff : ");
+        prtDbg( "args => " + JSON.stringify( args ));
+      }
       if ( avrDevArray[ args.device.avrindex ].used === true ) {
         if ( avrDevArray[ args.device.avrindex ].available == true ) {
           avrDevArray[ args.device.avrindex ].dev.mainZonePowerOff();
@@ -833,12 +838,20 @@ let setUpFlowActionsAndTriggers = () : void => {
     })
 
     .on("trigger.t_mzpower_on", (callback: Function, args: ArgsData , data: TriggerData ): void => {
-      prtDbg("On Trigger t_mzpower_on called");
+      if ( myDebugMode === true ) {
+        prtDbg( "Trigger.t_mzpower_on : ");
+        prtDbg( "args => " + JSON.stringify( args ));
+        prtDbg( "data => " + JSON.stringify( data ));
+      }
       callback( null, true );
     })
 
     .on("trigger.t_mzpower_off", (callback: Function, args: ArgsData , data: TriggerData ): void => {
-      prtDbg("On Trigger t_mzpower_off called");
+      if ( myDebugMode === true ) {
+        prtDbg( "Trigger.t_mzpower_off : ");
+        prtDbg( "args => " + JSON.stringify( args ));
+        prtDbg( "data => " + JSON.stringify( data ));
+      }
       callback( null, true );
     })
 
@@ -846,6 +859,10 @@ let setUpFlowActionsAndTriggers = () : void => {
     /* = Mute events                                                = */
     /* ============================================================== */
     .on("action.mute", (callback: Function, args: ActionArgsInfo ): void => {
+      if ( myDebugMode === true ) {
+        prtDbg( "Action.mute : ");
+        prtDbg( "args => " + JSON.stringify( args ));
+      }
       if ( avrDevArray[ args.device.avrindex ].used === true ) {
         if ( avrDevArray[ args.device.avrindex ].available == true ) {
           avrDevArray[ args.device.avrindex ].dev.muteOn();
@@ -859,6 +876,10 @@ let setUpFlowActionsAndTriggers = () : void => {
     })
 
     .on("action.unmute", (callback: Function, args: ActionArgsInfo ): void => {
+      if ( myDebugMode === true ) {
+        prtDbg( "Action.unmute : ");
+        prtDbg( "args => " + JSON.stringify( args ));
+      }
       if ( avrDevArray[ args.device.avrindex ].used === true ) {
         if ( avrDevArray[ args.device.avrindex ].available == true ) {
           avrDevArray[ args.device.avrindex ].dev.muteOff();
@@ -880,12 +901,20 @@ let setUpFlowActionsAndTriggers = () : void => {
     })
 
     .on("trigger.t_mute_on", (callback: Function, args: ArgsData , data: TriggerData ): void => {
-      prtDbg("On Trigger t_mute_on called");
+      if ( myDebugMode === true ) {
+        prtDbg( "Trigger.t_mute_on : ");
+        prtDbg( "args => " + JSON.stringify( args ));
+        prtDbg( "data => " + JSON.stringify( data ));
+      }
       callback( null, true );
     })
 
     .on("trigger.t_mute_off", (callback: Function, args: ArgsData , data: TriggerData ): void => {
-      prtDbg("On Trigger t_mute_off called");
+      if ( myDebugMode === true ) {
+        prtDbg( "Trigger.t_mute_off : ");
+        prtDbg( "args => " + JSON.stringify( args ));
+        prtDbg( "data => " + JSON.stringify( data ));
+      }
       callback( null, true );
     })
 
@@ -893,6 +922,10 @@ let setUpFlowActionsAndTriggers = () : void => {
     /* = Eco events                                                 = */
     /* ============================================================== */
     .on("action.eco.input.autocomplete", (callback: Function, args: ArgsComplete): void => {
+      if ( myDebugMode === true ) {
+        prtDbg( "Action.eco input complete : ");
+        prtDbg( "args => " + JSON.stringify( args ));
+      }
       if ( typeof(args.args.device.name) === "undefined" ) {
         callback( new Error( getI18nString("error.devnotsel")), false );
       } else {
@@ -930,8 +963,10 @@ let setUpFlowActionsAndTriggers = () : void => {
     })
 
     .on("action.eco", (callback: Function, args: ActionArgsInfo ): void  => {
-      prtDbg("Surroung action");
-      prtDbg( JSON.stringify( args ));
+      if ( myDebugMode === true ) {
+        prtDbg( "Action.eco : ");
+        prtDbg( "args => " + JSON.stringify( args ));
+      }
       if ( avrDevArray[ args.device.avrindex ].used === true ) {
         if ( avrDevArray[ args.device.avrindex ].available == true ) {
           if ( avrDevArray[ args.device.avrindex].dev.hasEco() === true ) {
@@ -949,7 +984,10 @@ let setUpFlowActionsAndTriggers = () : void => {
     })
 
     .on("trigger.t_eco_on.input.autocomplete", (callback: Function, args: ArgsComplete ): void  => {
-      prtDbg(`trigger t_eco input autocomplet called.`);
+      if ( myDebugMode === true ) {
+        prtDbg( "Trigger.t_eco_on : ");
+        prtDbg( "args => " + JSON.stringify( args ));
+      }
       if ( typeof(args.args.device.name) === "undefined" ) {
         callback( new Error( getI18nString("error.devnotsel")), false );
       } else {
@@ -987,7 +1025,10 @@ let setUpFlowActionsAndTriggers = () : void => {
     })
 
     .on("trigger.t_eco_off.input.autocomplete", (callback: Function, args: ArgsComplete ): void  => {
-      prtDbg(`trigger t_eco input autocomplet called.`);
+      if ( myDebugMode === true ) {
+        prtDbg( "Trigger.t_eco_off imput complete : ");
+        prtDbg( "args => " + JSON.stringify( args ));
+      }
       if ( typeof(args.args.device.name) === "undefined" ) {
         callback( new Error( getI18nString("error.devnotsel")), false );
       } else {
@@ -1031,7 +1072,11 @@ let setUpFlowActionsAndTriggers = () : void => {
     })
 
     .on("trigger.t_eco_on", (callback: Function, args: TriggerArgs , data: TriggerData ): void => {
-      prtDbg("On Trigger t_eco called");
+      if ( myDebugMode === true ) {
+        prtDbg( "Trigger.t_eco_on : ");
+        prtDbg( "args => " + JSON.stringify( args ));
+        prtDbg( "data => " + JSON.stringify( data ));
+      }
       if ( data.name === args.device.avrname && data.command === args.input.i18n ) {
         callback( null, true);
       } {
@@ -1040,7 +1085,11 @@ let setUpFlowActionsAndTriggers = () : void => {
     })
 
     .on("trigger.t_eco_off", (callback: Function, args: TriggerArgs , data: TriggerData ): void => {
-      prtDbg("On Trigger t_eco called");
+      if ( myDebugMode === true ) {
+        prtDbg( "Trigger.t_eco_off : ");
+        prtDbg( "args => " + JSON.stringify( args ));
+        prtDbg( "data => " + JSON.stringify( data ));
+      }
       if ( data.name === args.device.avrname && data.command === args.input.i18n ) {
         callback( null, true);
       } {
@@ -1053,6 +1102,10 @@ let setUpFlowActionsAndTriggers = () : void => {
     /* ============================================================== */
     //General
     .on("action.selectinput.input.autocomplete", (callback: Function, args: ArgsComplete): void => {
+      if ( myDebugMode === true ) {
+        prtDbg( "Action selectinput imput complete : ");
+        prtDbg( "args => " + JSON.stringify( args ));
+      }
       if ( typeof(args.args.device.name) === "undefined" ) {
         callback( new Error( getI18nString("error.devnotsel")), false );
       } else {
@@ -1083,6 +1136,10 @@ let setUpFlowActionsAndTriggers = () : void => {
     })
 
     .on("action.selectinput", (callback: Function, args: ActionArgsInfo ): void => {
+      if ( myDebugMode === true ) {
+        prtDbg( "Action selectinput : ");
+        prtDbg( "args => " + JSON.stringify( args ));
+      }
       if ( avrDevArray[ args.device.avrindex ].used === true ) {
         if ( avrDevArray[ args.device.avrindex ].available == true ) {
           avrDevArray[ args.device.avrindex ].dev.selectInputSource(args.input.command);
@@ -1096,7 +1153,10 @@ let setUpFlowActionsAndTriggers = () : void => {
     })
 
     .on("trigger.t_inputsource_sel.input.autocomplete", (callback: Function, args: ArgsComplete ): void  => {
-      prtDbg(`trigger t_input input autocomplet called.`);
+      if ( myDebugMode === true ) {
+        prtDbg( "Trigger t_inputsource_sel imput complete : ");
+        prtDbg( "args => " + JSON.stringify( args ));
+      }
       if ( typeof(args.args.device.name) === "undefined" ) {
         callback( new Error( getI18nString("error.devnotsel")), false );
       } else {
@@ -1128,7 +1188,10 @@ let setUpFlowActionsAndTriggers = () : void => {
     })
 
     .on("trigger.t_inputsource_des.input.autocomplete", (callback: Function, args: ArgsComplete ): void  => {
-      prtDbg(`trigger t_input input autocomplet called.`);
+      if ( myDebugMode === true ) {
+        prtDbg( "Trigger t_inputsource_des imput complete : ");
+        prtDbg( "args => " + JSON.stringify( args ));
+      }
       if ( typeof(args.args.device.name) === "undefined" ) {
         callback( new Error( getI18nString("error.devnotsel")), false );
       } else {
@@ -1168,7 +1231,11 @@ let setUpFlowActionsAndTriggers = () : void => {
     })
 
     .on("trigger.t_inputsource_sel", (callback: Function, args: TriggerArgs , data: TriggerData ): void => {
-      prtDbg("On Trigger t_inputsource_sel called");
+      if ( myDebugMode === true ) {
+        prtDbg( "Trigger.t_inputsource_sel : ");
+        prtDbg( "args => " + JSON.stringify( args ));
+        prtDbg( "data => " + JSON.stringify( data ));
+      }
       if ( data.name === args.device.avrname && data.command === args.input.i18n ) {
         callback( null, true);
       } {
@@ -1177,7 +1244,11 @@ let setUpFlowActionsAndTriggers = () : void => {
     })
 
     .on("trigger.t_inputsource_des", (callback: Function, args: TriggerArgs , data: TriggerData ): void => {
-      prtDbg("On Trigger t_inputsource_des called");
+      if ( myDebugMode === true ) {
+        prtDbg( "Trigger.t_inputsource_des : ");
+        prtDbg( "args => " + JSON.stringify( args ));
+        prtDbg( "data => " + JSON.stringify( data ));
+      }
       prtDbg( JSON.stringify( args ));
       prtDbg( JSON.stringify( data ));
 
@@ -1193,7 +1264,10 @@ let setUpFlowActionsAndTriggers = () : void => {
     /* ============================================================== */
     // General
     .on("action.surround", (callback: Function, args: ActionArgsInfo ): void  => {
-      prtDbg("Action surrounf called.");
+      if ( myDebugMode === true ) {
+        prtDbg( "Action surround : ");
+        prtDbg( "args => " + JSON.stringify( args ));
+      }
       if ( avrDevArray[ args.device.avrindex ].used === true ) {
         if ( avrDevArray[ args.device.avrindex ].available == true ) {
           avrDevArray[ args.device.avrindex ].dev.setSurrroundCommand(args.input.command);
@@ -1207,7 +1281,10 @@ let setUpFlowActionsAndTriggers = () : void => {
     })
 
     .on("action.surround.input.autocomplete", (callback: Function, args: ArgsComplete ): void  => {
-      prtDbg(`Action surround input autocomplete called.`);
+      if ( myDebugMode === true ) {
+        prtDbg( "Action surround input autocomplete: ");
+        prtDbg( "args => " + JSON.stringify( args ));
+      }
       if ( typeof(args.args.device.name) === "undefined" ) {
         callback( new Error( getI18nString("error.devnotsel")), false );
       } else {
@@ -1238,7 +1315,10 @@ let setUpFlowActionsAndTriggers = () : void => {
     })
 
     .on("trigger.t_surround_sel.input.autocomplete", (callback: Function, args: ArgsComplete ): void  => {
-      prtDbg(`trigger t_surround_sel input autocomplet called.`);
+      if ( myDebugMode === true ) {
+        prtDbg( "Trigger t_surround_sel input autocomplete : ");
+        prtDbg( "args => " + JSON.stringify( args ));
+      }
       if ( typeof(args.args.device.name) === "undefined" ) {
         callback( new Error( getI18nString("error.devnotsel")), false );
       } else {
@@ -1270,7 +1350,10 @@ let setUpFlowActionsAndTriggers = () : void => {
     })
 
     .on("trigger.t_surround_des.input.autocomplete", (callback: Function, args: ArgsComplete ): void  => {
-      prtDbg(`trigger t_surround_des input autocomplet called.`);
+      if ( myDebugMode === true ) {
+        prtDbg( "Trigger t_surround_des input autocomplete : ");
+        prtDbg( "args => " + JSON.stringify( args ));
+      }
       if ( typeof(args.args.device.name) === "undefined" ) {
         callback( new Error( getI18nString("error.devnotsel")), false );
       } else {
@@ -1310,7 +1393,11 @@ let setUpFlowActionsAndTriggers = () : void => {
     })
 
     .on("trigger.t_surround_sel", (callback: Function, args: TriggerArgs , data: TriggerData ): void => {
-      prtDbg("On Trigger t_surroud_sel called");
+      if ( myDebugMode === true ) {
+        prtDbg( "Trigger.t_surround_sel : ");
+        prtDbg( "args => " + JSON.stringify( args ));
+        prtDbg( "data => " + JSON.stringify( data ));
+      }
       if ( data.name === args.device.avrname && data.command === args.input.i18n ) {
         callback( null, true);
       } {
@@ -1319,7 +1406,11 @@ let setUpFlowActionsAndTriggers = () : void => {
     })
 
     .on("trigger.t_surround_des", (callback: Function, args: TriggerArgs , data: TriggerData ): void => {
-      prtDbg("On Trigger t_surroud_des called");
+      if ( myDebugMode === true ) {
+        prtDbg( "Trigger.t_surround_des : ");
+        prtDbg( "args => " + JSON.stringify( args ));
+        prtDbg( "data => " + JSON.stringify( data ));
+      }
       if ( data.name === args.device.avrname && data.command === args.input.i18n ) {
         callback( null, true);
       } {
@@ -1331,6 +1422,10 @@ let setUpFlowActionsAndTriggers = () : void => {
     /* = volume events                                              = */
     /* ============================================================== */
     .on("action.volumeup", (callback: Function, args: ActionArgsInfo ): void => {
+      if ( myDebugMode === true ) {
+        prtDbg( "Action volumeup : ");
+        prtDbg( "args => " + JSON.stringify( args ));
+      }
       if ( avrDevArray[ args.device.avrindex ].used === true ) {
         if ( avrDevArray[ args.device.avrindex ].available == true ) {
           avrDevArray[ args.device.avrindex ].dev.volumeUp();
@@ -1344,6 +1439,10 @@ let setUpFlowActionsAndTriggers = () : void => {
     })
 
     .on("action.volumedown", (callback: Function, args: ActionArgsInfo ): void => {
+      if ( myDebugMode === true ) {
+        prtDbg( "Action volumedown : ");
+        prtDbg( "args => " + JSON.stringify( args ));
+      }
       if ( avrDevArray[ args.device.avrindex ].used === true ) {
         if ( avrDevArray[ args.device.avrindex ].available == true ) {
           avrDevArray[ args.device.avrindex ].dev.volumeDown();
@@ -1357,6 +1456,10 @@ let setUpFlowActionsAndTriggers = () : void => {
     })
 
     .on("action.setvolume" , (callback: Function, args: ActionArgsInfo ): void => {
+      if ( myDebugMode === true ) {
+        prtDbg( "Action setvolume : ");
+        prtDbg( "args => " + JSON.stringify( args ));
+      }
       if ( avrDevArray[ args.device.avrindex ].used === true ) {
         if ( avrDevArray[ args.device.avrindex ].available == true ) {
           avrDevArray[ args.device.avrindex ].dev.setVolume( args.volumeNum);

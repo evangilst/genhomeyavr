@@ -1,8 +1,7 @@
-# HomeyAvr
+### genhomeyavr
+Generated the 'homey_avr' application for the "HOMEY" device.
 
-Application to allow Homey to control a Marantz AVR.
-
-## Supported selections:
+# Supported selections:
 ### Power , Main Zone Power and Mute
 Commands: On, Off<br />
 Triggers: On, Off<br />
@@ -34,8 +33,4 @@ nr1505, nr1504
 * All selection strings and messages are using the "locale/&lt;LANG&gt;.json" files.
 
 <strong>Note</strong>:
-<em>This is a generated homey application.
-Don't edit the files directly but edit the source files and re-generate.</em><br />
-Source: https://github.com/evgilst/genhomeyavr  
-
----
+<em>grunt buildapp</em> will generate the "homey_avr" under the dist/nl.evgilst.homeyavr<br />

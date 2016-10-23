@@ -16,7 +16,7 @@ import * as events   from "events";
 import { AVR }           from "./avr";
 import { HomeyAvrInfo }  from "./interfaces";
 
-const IPADDRESS: string   = "192.168.1.232";
+const IPADDRESS: string   = "127.0.0.1";
 const IPPORT:    number   = 2222;
 const AVRTYPE:   string   = "SR5010";
 const AVRNAME:   string   = "avrtest";
@@ -51,48 +51,48 @@ let prtMsg = (str: string ): void => {
 let setUpListeners = (): void  => {
 
   eventSck
-    .on( "init_success", ( num: number, name: string, type: string): void  => {
-      prtDbg(`AVR ${name} (slot-${num}) has loaded the ${type}.json file.`);
+    .on("init_success", (num: number, name: string, type: string): void => {
+      prtDbg(`AVR ${name} (slot:${num}) has loaded the ${type}.json file.`);
+        avrDevArray[ num ].confLoaded = true;
 
-      avrDevArray[0].available = true ;
+        prtMsg(`IP address:  ${avrDevArray[0].dev.getHostname()}.`);
+        prtMsg(`Port      :  ${avrDevArray[0].dev.getPort()}.`);
+        prtMsg(`Name      :  ${avrDevArray[0].dev.getName()}.`);
+        prtMsg(`Type      :  ${avrDevArray[0].dev.getType()}.`);
 
-      prtMsg(`IP address:  ${avrDevArray[0].dev.getHostname()}.`);
-      prtMsg(`Port      :  ${avrDevArray[0].dev.getPort()}.`);
-      prtMsg(`Name      :  ${avrDevArray[0].dev.getName()}.`);
-      prtMsg(`Type      :  ${avrDevArray[0].dev.getType()}.`);
+        avrDevArray[0].dev.setTest(); // Test all options not only the supported ones.
+      })
 
-      avrDevArray[0].dev.setTest();
-    })
-
-    .on( "init_failed" , (num: number, name: string, type: string) : void => {
-      prtDbg(`AVR ${name} (slot-${num}) failed to loaded the ${type}.json file.`);
+    .on("init_failed", (num: number, name: string, type: string): void => {
+      prtDbg(`Error: AVR ${name} (slot:${num}) has fail to load the ${type}.json file.`);
       process.exit(3);
     })
 
-    .on( "net_connected" , (num: number, name: string): void => {
-      prtDbg(`AVR ${name} (slot-${num}) is connected.`);
+    .on("net_connected", (num: number ,name: string ): void => {
+      prtDbg(`AVR ${name} (slot:${num}) is connected.`);
+      avrDevArray[ num ].available = true;
 
       checkAll();
     })
 
-    .on( "net_disconnected" , ( num: number, name: string ): void => {
-      prtDbg(`AVR ${name} (slot-${num}) is disconnected.`);
-      avrDevArray[0].available  = false ;
+    .on("net_disconnected" , (num: number, name: string ): void => {
+      prtDbg(`AVR ${name} (slot:${num}) is disconnected.`);
+      avrDevArray[ num ].available = false;
     })
 
-    .on( "net_timed_out" , ( num: number, name: string ): void => {
-      prtDbg(`AVR ${name} (slot-${num}) is timed out.`);
-      avrDevArray[0].available  = false ;
+    .on("net_timedout" , (num: number, name: string): void  => {
+      prtDbg(`AVR ${name} (slot:${num}) timed out.`);
+      avrDevArray[ num ].available = false;
     })
 
-    .on( "net_error" , ( num: number, name: string, err: Error ): void => {
-      prtDbg(`AVR ${name} (slot-${num}), ${err}.`);
-      avrDevArray[0].available  = false ;
+    .on("net_error", (num: number, name: string, err: Error ): void  => {
+      prtDbg(`AVR ${name} (slot:${num}) has a network error -> ${err}.`);
+      avrDevArray[ num ].available = false;
     })
 
-    .on( "net_uncaught" , ( num: number, name: string, err: Error ): void => {
-      prtDbg(`AVR ${name} (slot-${num}) has an uncaughtException -> ${err}.`);
-      avrDevArray[0].available  = false ;
+    .on("net_uncaught" , (num: number, name: string, err: string): void => {
+      prtDbg(`AVR ${name} (slot:${num}) : uncaught event '${err}'.`);
+      avrDevArray[ num ].available = false;
     })
 
     // Status triggers
@@ -108,7 +108,7 @@ let setUpListeners = (): void  => {
     .on("isource_status_chg" , (num: number, name: string , cmd: string ): void  => {
       prtMsg(`Inputsource status trigger (${num}-${name}) : ${cmd}`);
     })
-    .on("surmode_status_chg" , (num: number, name: string , cmd: string ): void  => {
+    .on("surround_status_chg" , (num: number, name: string , cmd: string ): void  => {
       prtMsg(`Surround status trigger (${num}-${name}) : ${cmd}`);
     })
     .on("volume_chg" , (num: number, name: string, value: number): void  => {

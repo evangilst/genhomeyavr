@@ -1,6 +1,6 @@
 {
   "name": "homeyavr",
-  "version": "0.0.1",
+  "version": "0.2.0",
   "description": "Homey marantz avr application.",
   "author": "Evert van Gilst",
   "license": "ISC",
