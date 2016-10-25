@@ -1,3 +1,6 @@
+### Version 0.2.1
+* Corrected surround triggers.
+
 ### Version 0.2.0
 * switched to typescript generation.
 * Added triggers for inputsource and surround modes.

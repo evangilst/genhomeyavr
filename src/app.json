@@ -4,7 +4,7 @@
     "en": "homeyavr",
     "nl": "homeyavr"
   },
-  "version": "1,1.0",
+  "version": "1.1.0",
   "compatibility": "0.x || 1.x",
   "author": {
     "name": "Evert van Gilst",
@@ -662,10 +662,35 @@
         ]
       },
       {
-        "id": "t_surround",
+        "id": "t_surround_sel",
         "title": {
           "en": "Surround mode selected.",
           "nl": "Surround mode geselecteerd."
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "placeholder": {
+              "en": "Select amplifier",
+              "nl": "Selecteer versterker"
+            }
+          },
+          {
+            "name": "input",
+            "type": "autocomplete",
+            "placeholder": {
+              "en": "Target mode",
+              "nl": "Gewenste mode"
+            }
+          }
+        ]
+      },
+      {
+        "id": "t_surround_des",
+        "title": {
+          "en": "Surround mode deselected.",
+          "nl": "Surround mode veranderd."
         },
         "args": [
           {

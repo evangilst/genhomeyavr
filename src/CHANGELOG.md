@@ -3,7 +3,7 @@
 * Added triggers for inputsource and surround modes.
 * Capabilities 'Onoff' and visible using mobile.
 * tested on Homey version v0.10.3.
-* renamed the respository 'genhomeyavr'.
+* using the respository 'genhomeyavr'.
 
 Remark:<br />
 The settings screen will need to closed by the user after the settings popup that the changes are saved.
@@ -11,4 +11,4 @@ The settings screen will need to closed by the user after the settings popup tha
 ---
 ### Version 1.0.0
 * babel(es6) based generation.
-* repository "homeyavr"
+* base on repository "homeyavr"
