@@ -15,7 +15,7 @@ module.exports = function( grunt ) {
 
             destDocDir:    "<%= defs.destDir %>/docs",
             destTstDir:    "<%= defs.destDir %>/test",
-            destAppDir:    "<%= defs.destDir %>/nl.evgilst.homeyavr"
+            destAppDir:    "<%= defs.destDir %>/nl.evgilst.marantzavr"
         },
 
         clean: {

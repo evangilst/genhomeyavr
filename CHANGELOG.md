@@ -1,3 +1,8 @@
+### Version 0.2.2
+* Changed the jpeg files.
+* Changed <strong>Homeyavr</strong> to <strong>marantzavr</strong>  
+Both were required for approval of the Homey app store.
+
 ### Version 0.2.1
 * Corrected surround triggers.
 

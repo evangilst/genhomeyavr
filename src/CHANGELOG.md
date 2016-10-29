@@ -1,3 +1,8 @@
+### Version 1.1.1
+* Changed the jpeg files.
+* Changed <strong>Homeyavr</strong> to <strong>marantzavr</strong>  
+Both were required for approval of the Homey app store.
+
 ### Version 1.1.0
 * switched to typescript generation.
 * Added triggers for inputsource and surround modes.
